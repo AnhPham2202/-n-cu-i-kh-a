@@ -1,0 +1,18 @@
+@mixin title-format($color, $weight){
+    color: $color;
+    font-weight: $weight;
+}
+
+@mixin play-btn ($size, $play-size){
+    border: solid 2px white;
+    height: $size;
+    width: $size;
+    text-align: center;
+    border-radius: 50%;
+    line-height: $size;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    font-size: $play-size;
+    transform: translate(-50%, -50%);
+}
