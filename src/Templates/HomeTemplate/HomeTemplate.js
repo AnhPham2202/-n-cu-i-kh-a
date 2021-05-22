@@ -9,7 +9,7 @@ export default function HomeTemplate(props) {
                 return (
                     <Fragment>
                         <Header />
-                        <props.component />
+                        <props.component {...propsRoute}/>
                         <Footer />
                     </Fragment>
                 )

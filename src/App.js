@@ -1,18 +1,21 @@
-import Header from './Components/Header/Header';
-import { BrowserRouter, Route, Router, Switch } from 'react-router-dom'
-import Footer from './Components/Footer/Footer';
-import HomeTemplate from './Templates/HomeTemplate/HomeTemplate';
-import Home from './Pages/Home/Home';
-
+import Header from "./Components/Header/Header";
+import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
+import Footer from "./Components/Footer/Footer";
+import HomeTemplate from "./Templates/HomeTemplate/HomeTemplate";
+import Home from "./Pages/Home/Home";
+import FilmDetail from "./Pages/FilmDetail/FilmDetail";
+import { createBrowserHistory } from "history";
+import TheaterDetail from "./Pages/TheaterDetail/TheaterDetail";
+export const history = createBrowserHistory()
 function App() {
   return (
-    <BrowserRouter >
+    <Router history={history}>
       <Switch>
-
-
-        <HomeTemplate  path='/' exact component={Home}/>
+        <HomeTemplate path='/theaterdetail/:mahethongrap' component={TheaterDetail}/>
+        <HomeTemplate path="/filmdetail/:id" component={FilmDetail} />
+        <HomeTemplate path="/" exact component={Home} />
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 

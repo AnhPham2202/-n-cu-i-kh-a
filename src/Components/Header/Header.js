@@ -1,13 +1,14 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-// import logo from './../../assets/img/logo.png'
+import logo from './../../assets/img/logo.png'
+import avatar from './../../assets/img/avatar.png'
 
 export default function Header() {
     return (
         <header>
             <div className="navbar container">
                 <NavLink to="/">
-                    <img src="./img/logo.png" alt="logo" />
+                    <img src={logo} alt="logo" />
                 </NavLink>
                 <ul>
                     <NavLink to="/calender">
@@ -25,7 +26,7 @@ export default function Header() {
                 </ul>
                 <div className="heading__item__right">
                     <a href=" #">
-                        <img className="avatar" src="./img/avatar.png" alt />
+                        <img className="avatar" src={avatar} alt />
                     </a>
                     <a href=" #"><span>Đăng nhập</span></a>
                     <a className="heading-location" href=" #">

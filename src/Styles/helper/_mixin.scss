@@ -16,3 +16,18 @@
     font-size: $play-size;
     transform: translate(-50%, -50%);
 }
+
+@mixin default-btn ($ver-padding, $hor-padding){
+    display: block;
+    margin: 60px auto;
+    padding: $ver-padding $hor-padding;        
+    border-color: $light-gray;
+    color: $light-gray;
+    background-color: transparent;
+    transition: all 0.5s;
+        &:hover{
+            background-color: $m-color;
+            color: white;
+            border-color: $m-color;
+        }
+}

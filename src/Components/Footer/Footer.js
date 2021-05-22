@@ -1,7 +1,22 @@
 import React from 'react'
 
+import logo_1 from '../../assets/img/logoConnect-1.png'
+import logo_2 from '../../assets/img/logoConnect-2.png'
+import logo_3 from '../../assets/img/logoConnect-3.png'
+import logo_4 from '../../assets/img/logoConnect-4.png'
+import logo_5 from '../../assets/img/logoConnect-5.png'
+import logo_6 from '../../assets/img/logoConnect-6.png'
+import logo_7 from '../../assets/img/logoConnect-7.jpg'
+import logo_8 from '../../assets/img/logoConnect-8.png'
+import logo_9 from '../../assets/img/logoConnect-9.png'
+import logo_10 from '../../assets/img/logoConnect-10.jpg'
+import logo_11 from '../../assets/img/logoConnect-11.png'
+import logo_12 from '../../assets/img/logoConnect-12.png'
+import logo_13 from '../../assets/img/logoConnect-13.png'
+import logo_14 from '../../assets/img/logoConnect-14.jpg'
+
 export default function Footer() {
-    console.log('./');
+
     const renderLogo = () => {
         const logoContent = []
         for (let i = 1; i <= 16; i += 5) {
@@ -15,11 +30,13 @@ export default function Footer() {
     }
     const renderRow = (start) => {
         let rowContent = []
+
         for (let i = start; i <= start + 4; i++) {
+
             if (i == 7 || i == 10 || i == 14) {
                 rowContent.push(
                     <a href="#">
-                        <img src={`./img/logoConnect-${i}.jpg`} alt />
+                        <img src={logo_1} alt />
                     </a>
                 )
             } else {

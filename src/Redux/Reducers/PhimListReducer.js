@@ -1,5 +1,5 @@
 const initialState = {
-    filmArr: []
+    filmArr: [],
 }
 
 export default (state = initialState, action) => {
@@ -8,6 +8,7 @@ export default (state = initialState, action) => {
             state.filmArr = action.filmArr
             return {...state}
         }
+ 
     }
     return state;
 }
