@@ -61,9 +61,8 @@ export default function CalenderFilmDetail(props) {
 
       stringArr = item.split("-");
       dateString = "Tháng " + stringArr[1] + "-" + stringArr[2] + "-" + stringArr[0];
-      if(item === time){
         return (
-          <div className="date text-color">
+          <div className={item === time ? "date text-color" : "date"}>
             <a onClick={() => {
               setTime(item);
               // renderA(dateString, filmDetail.heThongRapChieu?.[theater].cumRapChieu)
@@ -72,18 +71,7 @@ export default function CalenderFilmDetail(props) {
             </a>
           </div>
         )
-      }else{
-        return (
-          <div className="date">
-            <a onClick={() => {
-              setTime(item);
-              // renderA(dateString, filmDetail.heThongRapChieu?.[theater].cumRapChieu)
-            }} className="font-weight-bold">
-              {dateString}
-            </a>
-          </div>
-        );
-      }
+      
       
     });
   };
@@ -125,7 +113,6 @@ export default function CalenderFilmDetail(props) {
   // =================================================MAIN UI================================================
   let renderLogo = () => {
     return filmDetail.heThongRapChieu?.map((theaterInfo, index) => {
-      if(index === theater){
         return (
           <li
             style={{ cursor: "pointer" }}
@@ -137,7 +124,7 @@ export default function CalenderFilmDetail(props) {
                 setTime("");
                 setTheater(index);
               }}
-              className="nav-link text-center active"
+              className={index === theater ? 'nav-link text-center active' : 'nav-link text-center'}
               data-toggle="tab"
             >
               <div className="row">
@@ -153,35 +140,7 @@ export default function CalenderFilmDetail(props) {
             </a>
           </li>
         );
-      }else{
-        return (
-          <li
-            style={{ cursor: "pointer" }}
-            key={index}
-            className="left-col nav-item w-100 "
-          >
-            <a
-              onClick={() => {
-                setTime("");
-                setTheater(index);
-              }}
-              className="nav-link text-center"
-              data-toggle="tab"
-            >
-              <div className="row">
-                <div className="col-4">
-                  <img src={theaterInfo.logo} />
-                </div>
-                <div className="col-8 logo-name text-left">
-                  <span className="">
-                    {theaterInfo.tenHeThongRap.toUpperCase()}
-                  </span>
-                </div>
-              </div>
-            </a>
-          </li>
-        );
-      }
+      
     });
   };
 

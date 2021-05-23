@@ -46,7 +46,6 @@ export default function TheaterInfo(props) {
                             <p className="text-white-50">
                                 {theaterInfo.address}
                             </p>
-                            <button className="btn mr-3">Xem Trailer</button>
                             <button className="btn mr-3 font-weight-bold">Mua Vé Ngay</button>
                         </div>
                     </Fragment>

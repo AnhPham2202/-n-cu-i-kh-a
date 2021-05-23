@@ -5,9 +5,9 @@ import TheaterInfo from '../../Components/TheaterInfo/TheaterInfo'
 
 export default function TheaterDetail(props) {
         return (
-        <Fragment>
+        <div  style={{ background: '#0a2029'}} >
             <TheaterInfo   {...props}/>
             <CalenderTheaterDetail  {...props}/>
-        </Fragment>
+        </div >
     )
 }
