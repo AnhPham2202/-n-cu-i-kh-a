@@ -84,3 +84,20 @@ export const getFilmDetailFromApi = (id) => {
         }
     }
 }
+
+export const layChiTietPhongVe = (maLichChieu) => {
+    return async (dispatch) => {
+        const result = await axios({
+            url: `https://movie0706.cybersoft.edu.vn/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`,
+            method: 'GET'
+        })
+        dispatch({
+            type: 'SET_MANG_GHE',
+            thongTinPhongVe: result.data
+        })
+    }
+}
+
+// export const layMangGheDangDat = () => {
+//     return 
+// }

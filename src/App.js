@@ -6,6 +6,7 @@ import Home from "./Pages/Home/Home";
 import FilmDetail from "./Pages/FilmDetail/FilmDetail";
 import { createBrowserHistory } from "history";
 import TheaterDetail from "./Pages/TheaterDetail/TheaterDetail";
+import TicketBoongking from "./Pages/TicketBooking/TicketBoongking";
 export const history = createBrowserHistory()
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <HomeTemplate path='/theaterdetail/:mahethongrap' component={TheaterDetail}/>
         <HomeTemplate path="/filmdetail/:id" component={FilmDetail} />
         <HomeTemplate path="/" exact component={Home} />
+        <HomeTemplate path="/chitietphongve/:malichchieu" component={TicketBoongking} />
       </Switch>
     </Router>
   );

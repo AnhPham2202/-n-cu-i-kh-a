@@ -16,7 +16,7 @@ export default function CalenderTheaterDetail(props) {
     const [maPhimDangChon, setMaPhimDangChon] = useState(0)
     let mangLichChieuKhongTrung = []
 
-    
+
     useEffect(() => {
         dispatch(getTheaterFilmWithParamsFromApi(mahethongrap));
     }, []);
@@ -36,7 +36,7 @@ export default function CalenderTheaterDetail(props) {
             let ngayChieuGioChieuCuaPhimDaChon = lichChieu
             lichChieu = 'Ngày ' + lichChieu.split('-')[2] + '-' + lichChieu.split('-')[1] + '-' + lichChieu.split('-')[0]
             return (
-                <div className={ngayChieuGioChieuCuaPhimDaChon ===  time ? 'date text-color' : 'date'}>
+                <div className={ngayChieuGioChieuCuaPhimDaChon === time ? 'date text-color' : 'date'}>
                     <a onClick={() => {
                         setTime(ngayChieuGioChieuCuaPhimDaChon.split('T')[0])
                     }}
@@ -49,18 +49,17 @@ export default function CalenderTheaterDetail(props) {
 
     let renderTime = () => {
         return mangLichChieuCuaPhimDaChon.map((lichChieuPhim, index) => {
-            console.log(lichChieuPhim);
             let schedule = {
-                theaterNumber: '',
                 date: "",
                 time: "",
             };
-            schedule.theaterNumber = lichChieuPhim.tenRap
             schedule.date = lichChieuPhim.ngayChieuGioChieu.split("T")[0];
             schedule.time = lichChieuPhim.ngayChieuGioChieu.split("T")[1];
             if (schedule.date === time) {
                 return (
-                    <button className="btn time-btn mt-2 mr-2">{`${schedule.time} - ${schedule.theaterNumber}`}</button>
+                    <NavLink to={`/chitietphongve/${lichChieuPhim.maLichChieu}`}>
+                        <button className="btn time-btn mt-2 mr-2">{`${schedule.time} - ${lichChieuPhim.tenRap}`}</button>
+                    </NavLink>
                 );
             }
         });
@@ -96,7 +95,7 @@ export default function CalenderTheaterDetail(props) {
         return thongTinHeThongRap[0]?.lstCumRap[rapIndex]?.danhSachPhim.map(
             (film, index) => {
                 return (
-                    <div className="container mt-3">
+                    <div key={index} className="container mt-3">
                         <div className="row">
                             <div className="col-md-2 w-100">
                                 <img className='w-100' src={film.hinhAnh} />
@@ -119,7 +118,7 @@ export default function CalenderTheaterDetail(props) {
     };
 
 
-    
+
     return (
         <section id="calender-theater-detail">
             <div className="total-table container ">
@@ -128,8 +127,8 @@ export default function CalenderTheaterDetail(props) {
                         <ul className="nav nav-tabs">{renderTheater()}</ul>
                     </div>
                     <div className="col-7 total-right-col">
-                        <div className={mangLichChieuKhongTrung.length ==0 ? "row schedule-scroll-bar" : "row schedule-scroll-bar height-10"}>{renderDate()}</div>
-                        <div className={ mangLichChieuKhongTrung.length ==0 ? "tab-content film-col" : "tab-content film-col height-90"}>
+                        <div className={mangLichChieuKhongTrung.length == 0 ? "row schedule-scroll-bar" : "row schedule-scroll-bar height-10"}>{renderDate()}</div>
+                        <div className={mangLichChieuKhongTrung.length == 0 ? "tab-content film-col" : "tab-content film-col height-90"}>
                             <div className="tab-pane container active ">
                                 {renderFilm()}
                             </div>
