@@ -2,8 +2,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import logo from './../../assets/img/logo.png'
 import avatar from './../../assets/img/avatar.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { dangXuat } from '../../Redux/Actions/UserActions'
 
 export default function Header() {
+    let tenDN = useSelector(state => state.UserReducer.tenDangNhap)
+    const dispatch = useDispatch()
     return (
         <header>
             <div className="navbar container">
@@ -26,12 +30,14 @@ export default function Header() {
                 </ul>
                 <div className="heading__item__right">
                     <a href=" #">
-                        <img className="avatar" src={avatar} alt />
+                        <img className="avatar mr-2" src={avatar} alt />
                     </a>
-                    <a href=" #"><span>Đăng nhập</span></a>
+                    
+                    {tenDN == '' ?  
+                    <NavLink to="/dangnhap"><span>Đăng nhập</span></NavLink> : <NavLink to="/thongtincanhan"><span>{tenDN}</span></NavLink>}
                     <a className="heading-location" href=" #">
-                        <i className="fas fa-map-marker-alt" />
-                        <span>Hồ Chí Minh</span>
+                        {tenDN == '' ? 
+                    <NavLink to='/dangky'>Đăng ký</NavLink> :  <span onClick={()=>dispatch(dangXuat())}>Đăng xuất</span>}
                     </a>
                 </div>
             </div>

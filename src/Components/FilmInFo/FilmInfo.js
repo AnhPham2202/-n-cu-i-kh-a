@@ -1,20 +1,22 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { getFilmDetailFromApi } from "../../Redux/Actions/FilmAction";
 // import background from '../../assets/img'
 
 export default function FilmInfo(props) {
-  let filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
   let dispatch = useDispatch();
+  let filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
+  console.log(filmDetail);
   let { id } = props.match.params;
+  let ngayKhoiChieu = filmDetail.ngayKhoiChieu?.split("T")[0];
+  let thoiLuong = filmDetail.heThongRapChieu?.[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong;
+
   useEffect(() => {
     dispatch(getFilmDetailFromApi(id));
   }, []);
 
-  let releaseDate = filmDetail.ngayKhoiChieu?.split("T")[0];
-  let duration =
-    filmDetail.heThongRapChieu?.[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong;
-  // let duration = e[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong
+
   return (
     <div id="film-detail">
       <div className="container">
@@ -39,13 +41,15 @@ export default function FilmInfo(props) {
                 <p className="text-white">Thời lượng</p>
               </div>
               <div className="col-2">
-                <p className="text-white">{releaseDate}</p>
-                <p className="text-white">{duration} phút</p>
+                <p className="text-white">{ngayKhoiChieu}</p>
+                <p className="text-white">{thoiLuong} phút</p>
               </div>
             </div>
 
-            <button className="btn mr-3">Xem Trailer</button>
-            <button className="btn mr-3 font-weight-bold">Mua Vé Ngay</button>
+            <a data-lity href={filmDetail.trailer}><button className="btn mr-3">Xem Trailer</button></a>
+            <NavLink to={`/chitietphongve/${filmDetail.maPhim}`}>
+              <button className="btn mr-3 font-weight-bold">Mua Vé Ngay</button>
+            </NavLink>
           </div>
         </div>
         <div></div>
@@ -53,22 +57,3 @@ export default function FilmInfo(props) {
     </div>
   );
 }
-
-// <div id="film-detail">
-//   <div
-//     className="film-info "
-//     style={{ backgroundImage: `url(${filmDetail.hinhAnh})` }}
-//   ></div>
-//   {/* <div className="container film-info-content">
-//     <div className="row ">
-//       <div className="col-3">123</div>
-//       <div className="col-9">123</div>
-//     </div>
-//   </div> */}
-//   <div className="container ">
-//     <div className="row ">
-//       <div className="col-3">123</div>
-//       <div className="col-9">123</div>
-//     </div>
-//   </div>
-// </div>

@@ -7,11 +7,20 @@ import FilmDetail from "./Pages/FilmDetail/FilmDetail";
 import { createBrowserHistory } from "history";
 import TheaterDetail from "./Pages/TheaterDetail/TheaterDetail";
 import TicketBoongking from "./Pages/TicketBooking/TicketBoongking";
+import SignUp from "./Pages/SiginUp/SignUp";
+import SignIn from "./Pages/SignIn/SignIn";
+import UserPage from "./Pages/UserPage/UserPage";
+import '@fontsource/roboto';
+
+
 export const history = createBrowserHistory()
 function App() {
   return (
     <Router history={history}>
-      <Switch>
+      <Switch>     
+        <HomeTemplate path="/thongtincanhan" component={UserPage} />   
+        <HomeTemplate path="/dangnhap" component={SignIn} />
+        <HomeTemplate path="/dangky" component={SignUp} />
         <HomeTemplate path='/theaterdetail/:mahethongrap' component={TheaterDetail}/>
         <HomeTemplate path="/filmdetail/:id" component={FilmDetail} />
         <HomeTemplate path="/" exact component={Home} />

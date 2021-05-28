@@ -98,6 +98,3 @@ export const layChiTietPhongVe = (maLichChieu) => {
     }
 }
 
-// export const layMangGheDangDat = () => {
-//     return 
-// }

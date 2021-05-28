@@ -11,7 +11,7 @@ export default function TicketBoongking(props) {
                 <div className="col-9">
                     <SeatMap {...props} />
                 </div>
-                <div className="col-3">
+                <div className="col-3 seat-booking-info">
                     <SeatBookingInfo {...props} />
                 </div>
             </div>
