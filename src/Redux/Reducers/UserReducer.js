@@ -1,3 +1,6 @@
+import GeneralInfo from "../../Components/GeneralInfo/GeneralInfo";
+import UserInfo from "../../Components/UserInfo/UserInfo";
+
 let tenDN = '';
 if(localStorage.getItem('user')){
     let userLogin = JSON.parse(localStorage.getItem('user'));
@@ -5,7 +8,9 @@ if(localStorage.getItem('user')){
 }
 
 const stateDefault = {
-    tenDangNhap: tenDN
+    tenDangNhap: tenDN,
+    component: <UserInfo />,
+    componentChucNang: <GeneralInfo />,
 }
 
 export default  (state=stateDefault, action) =>{
@@ -17,6 +22,13 @@ export default  (state=stateDefault, action) =>{
         case 'DANG_XUAT': {
             state.tenDangNhap = action.tenDangNhap
             return {...state}
+        }
+        case  'DOI_GIAO_DIEN': {
+            state.component = action.component
+            return {...state}
+        }
+        case 'DOI_CHUC_NANG_DANG_HIEN_THI': {
+            state.componentChucNang = action.componentChucNang
         }
         
     }

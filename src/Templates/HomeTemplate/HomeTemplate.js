@@ -5,7 +5,6 @@ import Header from '../../Components/Header/Header'
 export default function HomeTemplate(props) {
     return (
             <Route path={props.path} render={(propsRoute) => {
-                console.log(props.component);
                 return (
                     <Fragment>
                         <Header />
