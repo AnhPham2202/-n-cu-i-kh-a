@@ -61,7 +61,7 @@ export const datVe = (info, token) => {
                 url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyDatVe/DatVe',
                 method: 'POST',
                 data: info,
-                headers: {'Authorization': 'Bearer ' + token }
+                headers: { 'Authorization': 'Bearer ' + token }
             })
             dispatch({
                 type: 'DAT_VE',
@@ -69,6 +69,61 @@ export const datVe = (info, token) => {
         } catch (error) {
             console.log(error);
         }
-        
+
+    }
+}
+
+export const layThongTinTaiKhoan = (taiKhoan) => {
+    return async (dispatch) => {
+        try {
+            const result = await axios({
+                url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan',
+                method: 'POST',
+                data: taiKhoan
+            })
+            dispatch({
+                type: 'SET_THONG_TIN_TAI_KHOAN',
+                thongTinTaiKhoan: result.data
+            })
+        } catch (error) {
+            console.log(error.response?.data);
+        }
+
+    }
+}
+
+export const doiGiaoDien = (component) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'DOI_GIAO_DIEN',
+            component: component
+        })
+    }
+}
+
+
+export const doiChucNang = (component) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'DOI_CHUC_NANG_DANG_HIEN_THI',
+            componentChucNang: component
+        })
+    }
+}
+
+export const capNhatThongTinNguoiDung = (newInfo, token) => {
+    return async (dispatch) => {
+        try {
+            const result = await axios({
+                url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung',
+                method: 'PUT',
+                data: newInfo,
+                headers: { 'Authorization': 'Bearer ' + token }
+            })
+            console.log(result.data);
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 }

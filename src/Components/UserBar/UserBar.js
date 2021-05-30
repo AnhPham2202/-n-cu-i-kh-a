@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -10,6 +9,8 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import TicketInfoTable from '../TicketInfoTable/TicketInfoTable';
 import { useDispatch, useSelector } from 'react-redux';
+import UserInfo from '../UserInfo/UserInfo';
+import { doiGiaoDien } from '../../Redux/Actions/UserActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,41 +24,8 @@ function ListItemLink(props) {
 }
 
 export default function UserBar() {
-    let { taiKhoan, matKhau, email, soDT, hoTen } = JSON.parse(localStorage.getItem('user'))
     const dispatch = useDispatch()
-    const [disabled, setDisabled] = useState(true)
     const classes = useStyles();
-
-
-    // const component = useSelector(state => state.UserReducer.component)
-
-
-    // let renderUser = () => {
-    //     return (
-    //         <Fragment>
-    //             <form className="form-group">
-    //                 <label htmlFor />Họ và Tên
-    //             <input disabled={disabled} type="text" className="form-control" id value={hoTen} />
-    //                 <label htmlFor />Tên tài khoản
-    //             <input disabled={disabled} type="text" className="form-control" id value={taiKhoan} />
-    //                 <label htmlFor />Email cá nhân
-    //             <input disabled={disabled} type="text" className="form-control" id value={email} />
-    //                 <label htmlFor />Số điện thoại
-    //             <input disabled={disabled} type="text" className="form-control" id value={soDT} />
-    //             </form>
-
-    //             {/* <form className={classes.root} noValidate autoComplete="off">
-    //             <TextField disabled={disabled} id="outlined-basic" label="Outlined" variant="outlined" />
-    //             <TextField disabled={disabled} id="outlined-basic" label="Outlined" variant="outlined" />
-    //             <TextField disabled={disabled} id="outlined-basic" label="Outlined" variant="outlined" />
-    //             <TextField disabled={disabled} id="outlined-basic" label="Outlined" variant="outlined" />
-    //             <TextField disabled={disabled} id="outlined-basic" label="Outlined" variant="outlined" />
-    //             </form> */}
-
-    //             <button onClick={() => setDisabled(!disabled)} className="btn btn-primary">{disabled == true ? "Sửa thông tin" : "Cập nhật thông tin"}</button>
-    //         </Fragment>
-    //     )
-    // }
     return (
         <div className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
@@ -80,18 +48,13 @@ export default function UserBar() {
                     <ListItemIcon>
                         <AccountCircleIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Thông tin tài khoản" />
+                    <ListItemText onClick={() => dispatch(doiGiaoDien(<UserInfo />))} primary="Thông tin tài khoản" />
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
                         <ShoppingCartIcon />
                     </ListItemIcon>
-                    <ListItemText onClick={() => {
-                        dispatch({
-                            type: 'DOI_GIAO_DIEN',
-                            component: <TicketInfoTable />
-                        })
-                    }} primary="Vé đã đặt" />
+                    <ListItemText onClick={() => dispatch(doiGiaoDien(<TicketInfoTable />)) } primary="Vé đã đặt" />
                 </ListItem>
             </List>
         </div>

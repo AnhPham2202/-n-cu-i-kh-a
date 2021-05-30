@@ -11,6 +11,7 @@ const stateDefault = {
     tenDangNhap: tenDN,
     component: <UserInfo />,
     componentChucNang: <GeneralInfo />,
+    thongTinTaiKhoan: {}
 }
 
 export default  (state=stateDefault, action) =>{
@@ -29,6 +30,12 @@ export default  (state=stateDefault, action) =>{
         }
         case 'DOI_CHUC_NANG_DANG_HIEN_THI': {
             state.componentChucNang = action.componentChucNang
+            return {...state}
+        }
+        case 'SET_THONG_TIN_TAI_KHOAN': {
+            state.thongTinTaiKhoan = action.thongTinTaiKhoan
+            return {...state}
+
         }
         
     }

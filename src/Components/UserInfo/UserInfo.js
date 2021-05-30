@@ -16,6 +16,10 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { useDispatch, useSelector } from 'react-redux';
 import PasswordChanging from '../PasswordChanging/PasswordChanging';
+import InfoChanging from '../InfoChanging/InfoChanging';
+import GeneralInfo from '../GeneralInfo/GeneralInfo';
+import { doiChucNang } from '../../Redux/Actions/UserActions';
+
 
 
 const useList = makeStyles((theme) => ({
@@ -86,7 +90,7 @@ export default function UserInfo() {
                                     <ListItemIcon>
                                         <AccountCircleIcon />
                                     </ListItemIcon>
-                                    <Typography variant="caption" display="block" gutterBottom>
+                                    <Typography onClick={() => dispatch(doiChucNang(<GeneralInfo />))} variant="caption" display="block" gutterBottom>
                                         Thông tin tài khoản
                                     </Typography>
                                 </ListItem>
@@ -94,12 +98,7 @@ export default function UserInfo() {
                                     <ListItemIcon>
                                         <LockOpenIcon />
                                     </ListItemIcon>
-                                    <Typography onClick={() => {
-                                        dispatch({
-                                            type: 'DOI_CHUC_NANG_DANG_HIEN_THI',
-                                            componentChucNang: <PasswordChanging />
-                                        })
-                                    }} variant="caption" display="block" gutterBottom>
+                                    <Typography onClick={() => dispatch(doiChucNang(<PasswordChanging />))} variant="caption" display="block" gutterBottom>
                                         Thay đổi mật khẩu
                                     </Typography>
                                 </ListItem>
@@ -107,7 +106,7 @@ export default function UserInfo() {
                                     <ListItemIcon>
                                         <SettingsIcon />
                                     </ListItemIcon>
-                                    <Typography variant="caption" display="block" gutterBottom>
+                                    <Typography onClick={() => dispatch(doiChucNang(<InfoChanging />))} variant="caption" display="block" gutterBottom>
                                         Thay đổi thông tin cá nhân
                                     </Typography>
                                 </ListItem>
