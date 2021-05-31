@@ -121,6 +121,7 @@ export const capNhatThongTinNguoiDung = (newInfo, token) => {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             console.log(result.data);
+            alert('ok')
         } catch (error) {
             console.log(error);
         }

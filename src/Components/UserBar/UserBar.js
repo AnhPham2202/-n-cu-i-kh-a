@@ -11,50 +11,95 @@ import TicketInfoTable from '../TicketInfoTable/TicketInfoTable';
 import { useDispatch, useSelector } from 'react-redux';
 import UserInfo from '../UserInfo/UserInfo';
 import { doiGiaoDien } from '../../Redux/Actions/UserActions';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles((theme) => ({
+
+
+const useList = makeStyles((theme) => ({
     root: {
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
+    }, 
+}));
+
+const useText = makeStyles({
+    root: {
+        width: '100%',
+        maxWidth: 500,
+        textAlign: 'center',
+        margin: '0'
+    },
+});
+
+
+const useAvatar = makeStyles((theme) => ({
+    root: {
+        display: 'block',
+        '& > *': {
+            // margin: theme.spacing(1),
+        },
+    },
+    large: {
+        width: theme.spacing(9),
+        height: theme.spacing(9),
+        margin: '20px auto'
     },
 }));
+
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }
 
 export default function UserBar() {
     const dispatch = useDispatch()
-    const classes = useStyles();
+    const list = useList();
+    const avatar = useAvatar();
+    const text = useText();
+    const [selectedIndex, setSelectedIndex] = useState(1);
+    let taiKhoan = JSON.parse(localStorage.getItem('user')).taiKhoan
+
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
+    };
+
     return (
-        <div className={classes.root}>
+        <div className={list.root}>
             <List component="nav" aria-label="main mailbox folders">
-                <ListItem button>
-                    <ListItemIcon>
-                        <AccountCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Inbox" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ShoppingCartIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Drafts" />
-                </ListItem>
+                <div className={avatar.root}>
+                    <Avatar alt={taiKhoan.toUpperCase()} src="/static/images/avatar/1.jpg" className={avatar.large} />
+                    <div className={text.root}>
+                        <Typography variant="caption" display="block" gutterBottom>
+                            <i>Xin chào,</i>
+                        </Typography>
+                        <Typography variant="button" display="block" gutterBottom>
+                            {taiKhoan}
+                        </Typography>
+                    </div>
+                </div>
             </List>
             <Divider />
             <List component="nav" aria-label="secondary mailbox folders">
-                <ListItem button>
+                <ListItem onClick={(e) => {
+                    handleListItemClick(e, 1)
+                    dispatch(doiGiaoDien(<UserInfo />))
+                }} button selected={selectedIndex === 1}
+                >
                     <ListItemIcon>
                         <AccountCircleIcon />
                     </ListItemIcon>
-                    <ListItemText onClick={() => dispatch(doiGiaoDien(<UserInfo />))} primary="Thông tin tài khoản" />
+                    <ListItemText primary="Thông tin tài khoản" />
                 </ListItem>
-                <ListItem button>
+                <ListItem onClick={(e) => {
+                    handleListItemClick(e, 2)
+                    dispatch(doiGiaoDien(<TicketInfoTable />))
+                }} button selected={selectedIndex === 2}
+                >
                     <ListItemIcon>
                         <ShoppingCartIcon />
                     </ListItemIcon>
-                    <ListItemText onClick={() => dispatch(doiGiaoDien(<TicketInfoTable />)) } primary="Vé đã đặt" />
+                    <ListItemText primary="Vé đã đặt" />
                 </ListItem>
             </List>
         </div>

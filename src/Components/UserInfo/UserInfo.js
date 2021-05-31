@@ -86,27 +86,27 @@ export default function UserInfo() {
                     <Paper className={grid.paper}>
                         <div className={list.root}>
                             <List component="nav" aria-label="main mailbox folders">
-                                <ListItem button>
+                                <ListItem onClick={() => dispatch(doiChucNang(<GeneralInfo />))}  button>
                                     <ListItemIcon>
                                         <AccountCircleIcon />
                                     </ListItemIcon>
-                                    <Typography onClick={() => dispatch(doiChucNang(<GeneralInfo />))} variant="caption" display="block" gutterBottom>
+                                    <Typography variant="caption" display="block" gutterBottom>
                                         Thông tin tài khoản
                                     </Typography>
                                 </ListItem>
-                                <ListItem button>
+                                <ListItem onClick={() => dispatch(doiChucNang(<PasswordChanging />))} button>
                                     <ListItemIcon>
                                         <LockOpenIcon />
                                     </ListItemIcon>
-                                    <Typography onClick={() => dispatch(doiChucNang(<PasswordChanging />))} variant="caption" display="block" gutterBottom>
+                                    <Typography variant="caption" display="block" gutterBottom>
                                         Thay đổi mật khẩu
                                     </Typography>
                                 </ListItem>
-                                <ListItem button>
+                                <ListItem onClick={() => dispatch(doiChucNang(<InfoChanging />))} button>
                                     <ListItemIcon>
                                         <SettingsIcon />
                                     </ListItemIcon>
-                                    <Typography onClick={() => dispatch(doiChucNang(<InfoChanging />))} variant="caption" display="block" gutterBottom>
+                                    <Typography variant="caption" display="block" gutterBottom>
                                         Thay đổi thông tin cá nhân
                                     </Typography>
                                 </ListItem>

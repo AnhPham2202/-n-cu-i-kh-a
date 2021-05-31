@@ -39,7 +39,6 @@ export default function TicketInfoTable() {
     useEffect(() => {
         dispatch(layThongTinTaiKhoan(taiKhoan))
     }, [])
-    console.log(thongTinTaiKhoan);
     thongTinTaiKhoan.thongTinDatVe?.map((item, index) => {
         let gheArr = item.danhSachGhe.map((ghe, i) => {
             return (
