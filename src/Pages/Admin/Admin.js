@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Route, Switch } from 'react-router'
 import TicketInfoTable from '../../Components/TicketInfoTable/TicketInfoTable';
-import UserBar from '../../Components/UserBar/UserBar'
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import AdminBar from '../../Components/AdminBar/AdminBar';
 
 const useGrid = makeStyles((theme) => ({
     root: {
@@ -18,9 +18,9 @@ const useGrid = makeStyles((theme) => ({
     },
 }));
 
-export default function UserPage(props) {
+export default function Admin(props) {
     const grid = useGrid();
-    const component = useSelector(state => state.UserReducer.component)
+    const component = useSelector(state => state.AdminReducer.component)
 
     return (
 
@@ -28,7 +28,7 @@ export default function UserPage(props) {
         <div className={grid.root}>
             <Grid container spacing={0}>
                 <Grid item xs={3}>
-                    <UserBar />
+                    <AdminBar />
                 </Grid>
                 <Grid item xs={9}>
                     <Paper className={grid.paper}>
