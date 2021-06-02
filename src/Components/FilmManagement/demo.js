@@ -18,7 +18,7 @@ import { Fragment } from 'react';
 
 
 const columns = [
-    { id: 'name', label: 'Tác vụ', minWidth: 70, maxWidth: 70 },
+    { id: 'name', label: 'Tác vụ', minWidth: 90 },
     { id: 'code', label: 'Mã phim', minWidth: 90 },
     {
         id: 'population',
@@ -54,6 +54,7 @@ const columns = [
 
 
 
+const rows = [];
 const tacVu = () => {
     return (
         <Fragment>
@@ -87,26 +88,23 @@ const useTable = makeStyles({
 
     ;
 export default function FilmManagement() {
-    const rows = [];
     const dispatch = useDispatch()
     const thongTinPhimPhanTrang = useSelector(state => state.AdminReducer.phimPhanTrang)
     const table = useTable();
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    console.log(page);
     console.log(thongTinPhimPhanTrang);
-    console.log(rows);
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
     useEffect(() => {
         dispatch(layPhimPhanTrang(page, rowsPerPage))
-    }, [page,rowsPerPage])
+    }, [])
     thongTinPhimPhanTrang.items?.map((phim, index) => {
         rows.push({
             tacVu: tacVu(),
@@ -118,7 +116,7 @@ export default function FilmManagement() {
             danhGia: phim.danhGia,
         })
     })
-    console.log(rows);
+
 
     return (
         <Paper className={table.root}>
@@ -138,7 +136,7 @@ export default function FilmManagement() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, i) => {
+                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, i) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                     <TableCell key={i} >
@@ -174,7 +172,7 @@ export default function FilmManagement() {
                 // className={}
                 rowsPerPageOptions={[5, 10]}
                 component="div"
-                count={thongTinPhimPhanTrang.totalCount??''}
+                count={rows.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}

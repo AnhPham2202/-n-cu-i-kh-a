@@ -15,6 +15,9 @@ import MovieCreationIcon from '@material-ui/icons/MovieCreation';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { withStyles } from '@material-ui/core/styles';
+
+
 
 
 const useList = makeStyles((theme) => ({
@@ -32,6 +35,10 @@ const useText = makeStyles({
         textAlign: 'center',
         margin: '0'
     },
+    body1: {
+        fontSize: 14,
+        textAlign: 'left',
+    }
 });
 
 
@@ -82,7 +89,7 @@ export default function AdminBar() {
             </List>
             <Divider />
             <List component="nav" aria-label="secondary mailbox folders">
-                <ListItem onClick={(e) => {
+                <ListItem  onClick={(e) => {
                     handleListItemClick(e, 1)
                     dispatch(doiGiaoDien(<UserInfo />))
                 }} button selected={selectedIndex === 1}

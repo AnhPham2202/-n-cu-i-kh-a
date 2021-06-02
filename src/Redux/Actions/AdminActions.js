@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export const layPhimPhanTrang = () => {
+export const layPhimPhanTrang = (trangHienTai, soPhanTu) => {
     return async (dispatch) => {
         const result = await axios({
-            url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhimPhanTrang?maNhom=GP03&soTrang=6&soPhanTuTrenTrang=5',
+            url: `https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhimPhanTrang?maNhom=GP03&soTrang=${trangHienTai}&soPhanTuTrenTrang=${soPhanTu}`,
             method: 'GET'
         })
         dispatch({
