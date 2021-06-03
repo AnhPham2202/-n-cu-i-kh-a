@@ -72,7 +72,6 @@ export default function FilmManagement() {
     const dispatch = useDispatch()
     const thongTinPhimPhanTrang = useSelector(state => state.AdminReducer.phimPhanTrang)
     const table = useTable();
-
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const handleChangePage = (event, newPage) => {
