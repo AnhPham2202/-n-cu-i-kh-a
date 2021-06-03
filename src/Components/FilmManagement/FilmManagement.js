@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { layPhimPhanTrang } from '../../Redux/Actions/AdminActions';
+import { layPhimPhanTrang, xoaPhim } from '../../Redux/Actions/AdminActions';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
@@ -54,27 +54,7 @@ const columns = [
 
 
 
-const tacVu = () => {
-    return (
-        <Fragment>
-            <label onClick={() => console.log(1)} htmlFor="icon-button-file">
-                <IconButton aria-label="delete film" component="span">
-                    <DeleteIcon />
-                </IconButton>
-            </label>
-            <label onClick={() => console.log(2)} htmlFor="icon-button-file">
-                <IconButton aria-label="change film" component="span">
-                    <CreateIcon />
-                </IconButton>
-            </label>
-            <label onClick={() => console.log(3)} htmlFor="icon-button-file">
-                <IconButton aria-label="add film" component="span">
-                    <AddToPhotosIcon />
-                </IconButton>
-            </label>
-        </Fragment>
-    )
-}
+
 
 const useTable = makeStyles({
     root: {
@@ -87,6 +67,7 @@ const useTable = makeStyles({
 
     ;
 export default function FilmManagement() {
+    
     const rows = [];
     const dispatch = useDispatch()
     const thongTinPhimPhanTrang = useSelector(state => state.AdminReducer.phimPhanTrang)
@@ -97,19 +78,38 @@ export default function FilmManagement() {
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
-    console.log(page);
-    console.log(thongTinPhimPhanTrang);
-    console.log(rows);
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+    const tacVu = (maPhim) => {
+        return (
+            <Fragment>
+                <label htmlFor="icon-button-file">
+                    {/* ??????????????? */}
+                    <IconButton onClick={() => dispatch(xoaPhim(maPhim))}  aria-label="delete film" component="span">
+                        <DeleteIcon />
+                    </IconButton>
+                </label>
+                <label onClick={() => console.log(2)} htmlFor="icon-button-file">
+                    <IconButton aria-label="change film" component="span">
+                        <CreateIcon />
+                    </IconButton>
+                </label>
+                <label onClick={() => console.log(3)} htmlFor="icon-button-file">
+                    <IconButton aria-label="add film" component="span">
+                        <AddToPhotosIcon />
+                    </IconButton>
+                </label>
+            </Fragment>
+        )
+    }
     useEffect(() => {
         dispatch(layPhimPhanTrang(page, rowsPerPage))
     }, [page,rowsPerPage])
     thongTinPhimPhanTrang.items?.map((phim, index) => {
         rows.push({
-            tacVu: tacVu(),
+            tacVu: tacVu(phim.maPhim),
             maPhim: phim.maPhim,
             tenPhim: phim.tenPhim,
             hinhAnh: phim.hinhAnh,

@@ -8,7 +8,6 @@ import Divider from '@material-ui/core/Divider';
 import TicketInfoTable from '../TicketInfoTable/TicketInfoTable';
 import { useDispatch, useSelector } from 'react-redux';
 import UserInfo from '../UserInfo/UserInfo';
-import { doiGiaoDien } from '../../Redux/Actions/UserActions';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import MovieCreationIcon from '@material-ui/icons/MovieCreation';
@@ -16,6 +15,9 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { withStyles } from '@material-ui/core/styles';
+import { doiGiaoDien } from '../../Redux/Actions/AdminActions';
+import FilmManagement from '../FilmManagement/FilmManagement';
+import AddFilm from '../AddFilm/AddFilm';
 
 
 
@@ -33,7 +35,7 @@ const useText = makeStyles({
         width: '100%',
         maxWidth: 500,
         textAlign: 'center',
-        margin: '0'
+        margin: '0',
     },
     body1: {
         fontSize: 14,
@@ -91,7 +93,7 @@ export default function AdminBar() {
             <List component="nav" aria-label="secondary mailbox folders">
                 <ListItem  onClick={(e) => {
                     handleListItemClick(e, 1)
-                    dispatch(doiGiaoDien(<UserInfo />))
+                    dispatch(doiGiaoDien(<FilmManagement />))
                 }} button selected={selectedIndex === 1}
                 >
                     <ListItemIcon>
@@ -112,7 +114,7 @@ export default function AdminBar() {
 
                 <ListItem onClick={(e) => {
                     handleListItemClick(e, 3)
-                    dispatch(doiGiaoDien(<TicketInfoTable />))
+                    dispatch(doiGiaoDien(<AddFilm />))
                 }} button selected={selectedIndex === 3}
                 >
                     <ListItemIcon>

@@ -13,6 +13,9 @@ export default (state = initialState, action) => {
         state.phimPhanTrang = action.phimPhanTrang
         return { ...state }
     }
+    case 'DOI_GIAO_DIEN_ADMIN': {
+        state.component = action.component
+    }
 
     default:
         return state
