@@ -90,7 +90,6 @@ export default function InfoChanging() {
     }
 
     let onSubmit = () => {
-        
         let thongTinTaiKhoanMoi = {
             taiKhoan: taiKhoan,
             matKhau: matKhau,

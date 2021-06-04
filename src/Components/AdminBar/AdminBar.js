@@ -27,7 +27,11 @@ const useList = makeStyles((theme) => ({
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
-    }, 
+        '& .MuiTypography-body1': {
+            fontSize: '14px',
+            textAlign: 'left'
+        }
+    },
 }));
 
 const useText = makeStyles({
@@ -36,10 +40,6 @@ const useText = makeStyles({
         maxWidth: 500,
         textAlign: 'center',
         margin: '0',
-    },
-    body1: {
-        fontSize: 14,
-        textAlign: 'left',
     }
 });
 
@@ -91,7 +91,7 @@ export default function AdminBar() {
             </List>
             <Divider />
             <List component="nav" aria-label="secondary mailbox folders">
-                <ListItem  onClick={(e) => {
+                <ListItem onClick={(e) => {
                     handleListItemClick(e, 1)
                     dispatch(doiGiaoDien(<FilmManagement />))
                 }} button selected={selectedIndex === 1}

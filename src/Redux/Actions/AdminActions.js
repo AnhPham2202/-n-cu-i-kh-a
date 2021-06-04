@@ -25,7 +25,7 @@ export const xoaPhim = (maPhim) => {
             })
             console.log(result.data);
         } catch (error) {
-            alert(error.response.data);
+            alert(error.response?.data);
         }
     }
 }
@@ -39,3 +39,18 @@ export const doiGiaoDien = (component) => {
     }
 }
   
+
+export const themPhim = (phim) => {
+    return async (dispatch) => {
+        try {
+            const result = await axios({
+                url: 'https://movie0706.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh',
+                method: 'POST',
+                data: phim
+            })
+            alert('Thêm phim thành công');
+        } catch (error) {
+            alert(error.response?.data);
+        }
+    }
+}

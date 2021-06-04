@@ -59,10 +59,16 @@ const columns = [
 const useTable = makeStyles({
     root: {
         width: '100%',
+        '& .MuiTableCell-stickyHeader': {
+                background: 'pink'
+        }
+        
     },
     container: {
         maxHeight: 440,
+        
     },
+    
 });
 
     ;
@@ -104,7 +110,7 @@ export default function FilmManagement() {
         )
     }
     useEffect(() => {
-        dispatch(layPhimPhanTrang(page, rowsPerPage))
+        dispatch(layPhimPhanTrang(page+1, rowsPerPage))
     }, [page,rowsPerPage])
     thongTinPhimPhanTrang.items?.map((phim, index) => {
         rows.push({
@@ -123,7 +129,7 @@ export default function FilmManagement() {
         <Paper className={table.root}>
             <TableContainer className={table.container}>
                 <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
+                    <TableHead className={table.header}>
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell
