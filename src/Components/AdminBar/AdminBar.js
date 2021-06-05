@@ -18,6 +18,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { doiGiaoDien } from '../../Redux/Actions/AdminActions';
 import FilmManagement from '../FilmManagement/FilmManagement';
 import AddFilm from '../AddFilm/AddFilm';
+import UserManagement from '../UserManagement/UserManagement';
 
 
 
@@ -103,7 +104,7 @@ export default function AdminBar() {
                 </ListItem>
                 <ListItem onClick={(e) => {
                     handleListItemClick(e, 2)
-                    dispatch(doiGiaoDien(<TicketInfoTable />))
+                    dispatch(doiGiaoDien(<UserManagement />))
                 }} button selected={selectedIndex === 2}
                 >
                     <ListItemIcon>

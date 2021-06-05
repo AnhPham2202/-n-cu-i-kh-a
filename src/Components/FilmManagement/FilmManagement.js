@@ -15,6 +15,13 @@ import CreateIcon from '@material-ui/icons/Create';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import IconButton from '@material-ui/core/IconButton';
 import { Fragment } from 'react';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
+
 
 
 const columns = [
@@ -53,33 +60,79 @@ const columns = [
 ];
 
 
-
-
-
+const useModal = makeStyles((theme) => ({
+    modal: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    paper: {
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        height: 600,
+        width: 550,
+        borderRadius: '10px'
+    },
+}));
 const useTable = makeStyles({
     root: {
         width: '100%',
         '& .MuiTableCell-stickyHeader': {
-                background: 'pink'
+            background: 'pink'
         }
-        
+
     },
     container: {
         maxHeight: 440,
-        
-    },
-    
-});
 
-    ;
+    },
+
+});
+const useForm = makeStyles((theme) => ({
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(0),
+            width: '50%',
+            margin: '20px 0px',
+            padding: '0 10px 0 0'
+
+        },
+        '& .MuiInput-underline': {
+            width: '100%'
+        }
+    },
+    width100: {
+        width: '100% !important',
+
+    }
+}));
+
+
+
 export default function FilmManagement() {
-    
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const [emailInput, setMail] = useState("email")
+    const [soDTInput, setSoDT] = useState("soDT")
+    const [hoTenInput, setHoTen] = useState("hoTen")
+    const [taiKhoanInput, setTaiKhoan] = useState("taiKhoan")
+
+
+    const form = useForm();
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     const rows = [];
     const dispatch = useDispatch()
     const thongTinPhimPhanTrang = useSelector(state => state.AdminReducer.phimPhanTrang)
     const table = useTable();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const modal = useModal();
+    const [open, setOpen] = useState(false);
+    // functions for Pagination Mui
+    console.log(thongTinPhimPhanTrang);
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -87,16 +140,123 @@ export default function FilmManagement() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+    // functions for modal Mui
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const handleEmail = (event) => {
+        setMail(event.target.value)
+    }
+
+    const handleSoDT = (event) => {
+        setSoDT(event.target.value)
+    }
+
+    const handleHoTen = (event) => {
+        setHoTen(event.target.value)
+    }
+
+    let onSubmit = () => {
+        console.log(123)
+    }
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    const formFilmInfo = () => {
+        return (
+            <div className={modal.paper}>
+                
+                <h6  id="transition-modal-title">Thay đổi thông tin phim</h6>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    onSubmit()
+                }} className={form.root} noValidate autoComplete="off">
+                    <TextField
+                        id="maPhim"
+                        label="Mã phim"
+                        defaultValue='Loading...'
+                        value={taiKhoanInput}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                    />
+
+                    <TextField
+                        id="biDanh"
+                        label="Bí danh"
+                        defaultValue='Loading...'
+                        value={hoTenInput}
+                        onChange={handleHoTen}
+                    />
+
+                    <TextField
+                        id="tenPhim"
+                        label="Tên phim"
+                        defaultValue='Loading...'
+                        value={emailInput}
+                        onChange={handleEmail}
+                    />
+
+
+                    <TextField
+                        id="ngayKhoiChieu"
+                        label="Ngày khởi chiếu"
+                        defaultValue='Loading...'
+                        value={soDTInput}
+                        onChange={handleSoDT}
+                    />
+
+
+                    <TextField
+                        id="trailer"
+                        label="Trailer"
+                        defaultValue='Loading...'
+                        className={form.width100}
+                        value={soDTInput}
+                        onChange={handleSoDT}
+                    />
+                    <TextField
+                        id="hinhAnh"
+                        label="Hình ảnh"
+                        type="file"
+                        className={form.width100}
+                        onChange={handleSoDT}
+                    />
+                     <TextField
+                        id="moTa"
+                        label="Mô tả"
+                        defaultValue='Loading...'
+                        className={form.width100}
+                        value={soDTInput}
+                        onChange={handleSoDT}
+                        multiline
+                    />
+                     <TextField
+                        id="danhGia"
+                        label="Đánh giá"
+                        defaultValue='Loading...'
+                        className={form.width100}
+                        value={soDTInput}
+                        onChange={handleSoDT}
+                    />
+                </form>
+            </div>
+        )
+    }
+
     const tacVu = (maPhim) => {
         return (
             <Fragment>
                 <label htmlFor="icon-button-file">
-                    {/* ??????????????? */}
-                    <IconButton onClick={() => dispatch(xoaPhim(maPhim))}  aria-label="delete film" component="span">
+                    <IconButton onClick={() => dispatch(xoaPhim(maPhim))} aria-label="delete film" component="span">
                         <DeleteIcon />
                     </IconButton>
                 </label>
-                <label onClick={() => console.log(2)} htmlFor="icon-button-file">
+                <label onClick={handleOpen} htmlFor="icon-button-file">
                     <IconButton aria-label="change film" component="span">
                         <CreateIcon />
                     </IconButton>
@@ -106,12 +266,30 @@ export default function FilmManagement() {
                         <AddToPhotosIcon />
                     </IconButton>
                 </label>
+
+                <Modal
+                    aria-labelledby="transition-modal-title"
+                    aria-describedby="transition-modal-description"
+                    className={modal.modal}
+                    open={open}
+                    onClose={handleClose}
+                    closeAfterTransition
+                    BackdropComponent={Backdrop}
+                    BackdropProps={{
+                        timeout: 500,
+                    }}
+                   
+                >
+                    <Fade in={open}  style={{overflow: 'auto'}}>
+                        {formFilmInfo()}
+                    </Fade>
+                </Modal>
             </Fragment>
         )
     }
     useEffect(() => {
-        dispatch(layPhimPhanTrang(page+1, rowsPerPage))
-    }, [page,rowsPerPage])
+        dispatch(layPhimPhanTrang(page + 1, rowsPerPage))
+    }, [page, rowsPerPage])
     thongTinPhimPhanTrang.items?.map((phim, index) => {
         rows.push({
             tacVu: tacVu(phim.maPhim),
@@ -123,7 +301,6 @@ export default function FilmManagement() {
             danhGia: phim.danhGia,
         })
     })
-    console.log(rows);
 
     return (
         <Paper className={table.root}>
@@ -176,10 +353,9 @@ export default function FilmManagement() {
                 </Table>
             </TableContainer>
             <TablePagination
-                // className={}
                 rowsPerPageOptions={[5, 10]}
                 component="div"
-                count={thongTinPhimPhanTrang.totalCount??''}
+                count={thongTinPhimPhanTrang.totalCount ?? ''}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onChangePage={handleChangePage}
