@@ -19,6 +19,7 @@ import { doiGiaoDien } from '../../Redux/Actions/AdminActions';
 import FilmManagement from '../FilmManagement/FilmManagement';
 import AddFilm from '../AddFilm/AddFilm';
 import UserManagement from '../UserManagement/UserManagement';
+import AddUser from '../AddUser/AddUser';
 
 
 
@@ -126,7 +127,7 @@ export default function AdminBar() {
 
                 <ListItem onClick={(e) => {
                     handleListItemClick(e, 4)
-                    dispatch(doiGiaoDien(<TicketInfoTable />))
+                    dispatch(doiGiaoDien(<AddUser />))
                 }} button selected={selectedIndex === 4}
                 >
                     <ListItemIcon>

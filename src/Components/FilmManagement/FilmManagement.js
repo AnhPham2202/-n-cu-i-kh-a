@@ -28,34 +28,34 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const columns = [
-    { id: 'name', label: 'Tác vụ', minWidth: 70, maxWidth: 70 },
-    { id: 'code', label: 'Mã phim', minWidth: 90 },
+    { id: 'tacVuAdmin-col', label: 'Tác vụ', minWidth: 70, maxWidth: 70 },
+    { id: 'maPhim-col', label: 'Mã phim', minWidth: 90 },
     {
-        id: 'population',
+        id: 'tenPhim-col',
         label: 'Tên phim',
         minWidth: 120,
         align: 'center',
     },
     {
-        id: 'size',
+        id: 'hinhAnh-col',
         label: 'Hình Ảnh',
         minWidth: 120,
         align: 'center',
     },
     {
-        id: 'desc',
+        id: 'desc-col',
         label: 'Mô tả',
         minWidth: 320,
         align: 'center',
     },
     {
-        id: 'coming-date',
+        id: 'comingDate-col',
         label: 'Ngày khởi chiếu',
         minWidth: 215,
         align: 'center',
     },
     {
-        id: 'rate',
+        id: 'rate-col',
         label: 'Đánh giá',
         minWidth: 100,
         align: 'center',
@@ -211,7 +211,6 @@ export default function FilmManagement() {
             setDanhGia(thongTinPhimPhanTrang.items?.[itemIndex].danhGia)
             setNgayKhoiChieu(thongTinPhimPhanTrang.items?.[itemIndex].ngayKhoiChieu)
         }
-        console.log('again');
 
 
     }, [page, rowsPerPage, open, itemIndex])
@@ -308,10 +307,12 @@ export default function FilmManagement() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                        Cancel
+                        Hủy bỏ
                     </Button>
-                    <Button onClick={handleClose} color="primary">
-                        Subscribe
+                    <Button onClick={() => {
+                        onSubmit()                        
+                        handleClose()}} color="primary">
+                        Thay đổi
                     </Button>
                 </DialogActions>
             </Dialog>
