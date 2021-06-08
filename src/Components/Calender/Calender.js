@@ -6,14 +6,82 @@ import {
   getTheaterFilmFromApi,
 } from "../../Redux/Actions/FilmAction";
 
+import { makeStyles } from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { Button } from "@material-ui/core";
+import TodayIcon from '@material-ui/icons/Today';
+import Avatar from '@material-ui/core/Avatar';
+
+
+const useAccordion = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& .MuiAccordionDetails-root': {
+      display: 'block'
+    },
+    '& .MuiPaper-elevation1': {
+      boxShadow: 'none',
+      borderBottom: '0.5px solid #9b9b9b4f'
+    }
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+}));
+
+const useGrid = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+const useButton = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      color: 'green'
+    },
+  },
+}));
+const useAvatar = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  rounded: {
+    color: '#fff',
+  },
+}));
+
+
 export default function Calender() {
+  const accordion = useAccordion();
+  const grid = useGrid();
+  const btn = useButton()
+  const avatar = useAvatar();
+
+
   let logoArr = useSelector((state) => state.TheaterListReducer.logoArr);
   let theaterArr = useSelector((state) => state.TheaterListReducer.theaterArr);
   let theaterFilmArr = useSelector(
     (state) => state.TheaterListReducer.theaterFilmArr
   );
   const theaterInfo = useSelector(state => state.TheaterListReducer.theaterInfo)
-
+  console.log(theaterFilmArr);
   // let [theater, setTheater] = useState("CineStar");
   let [filmIndex, setfilmIndex] = useState(0);
   let [brandIndex, setBrandIndex] = useState(0);
@@ -36,7 +104,7 @@ export default function Calender() {
         <div className="row table-height">
           <div className="col-md-1">{renderLogo()}</div>
           <div className="col-md-5">
-           <div className="tab-content">
+            <div className="tab-content">
               <div className="tab-pane container active ">
                 {renderTheater()}
               </div>
@@ -53,68 +121,97 @@ export default function Calender() {
     theaterFilmArr.map((theaterInfo, index) => {
       logo.push(
         <li key={index} className="left-col nav-item ">
-          <a
-            onClick={() => {
-              // setTheater(theaterInfo.maHeThongRap);
-              setBrandIndex(index)
-            }}
-            className="nav-link "
-            data-toggle="tab"
-            href={`#calender${index + 1}`}
-          >
-            <img src={theaterInfo.logo} />
-          </a>
+          <Button>
+            <a
+              onClick={() => {
+                // setTheater(theaterInfo.maHeThongRap);
+                setBrandIndex(index)
+              }}
+              className="nav-link "
+              data-toggle="tab"
+              href={`#calender${index + 1}`}
+            >
+              <img src={theaterInfo.logo} />
+            </a>
+          </Button>
         </li>
       );
     });
     return (
-        <ul className="nav nav-tabs">{logo}</ul>
+      <ul className="nav nav-tabs">{logo}</ul>
     );
   };
+  const renderTime = (timeArr) => {
+    return timeArr.map((time, index) => {
+      return (
+        <span className={btn.root}>
+          <Button variant="outlined">
+            <TodayIcon style={{ marginRight: 2, color: 'black' }} />
+            {time.ngayChieuGioChieu.replace('T', ' lúc ')}
+          </Button>
+        </span>
+      )
+    })
+  }
   let renderFilm = () => {
     return theaterFilmArr[brandIndex]?.lstCumRap[filmIndex]?.danhSachPhim.map(
       (item, index) => {
         return (
-          <div className="container">
-            <a href="#" className="row">
-              <div className="col-md-3">
-                <img src={item.hinhAnh} />
-              </div>
-              <div className="col-md-9 theater-text">
-                <span className="theater-name">{item.tenPhim} </span>
-                <p className="theater-detail">[Chọn phim để xem chi tiết] </p>
-                <NavLink to={`/filmdetail/${item.maPhim}`}>
-                  <button className="btn default-btn">Xem Chi Tiết</button>
-                </NavLink>
-              </div>
-            </a>
+
+          <div className={accordion.root}>
+            <Accordion>
+
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <Grid container spacing={3}>
+                  <Grid item xs={2}>
+                    <Avatar variant="rounded" className={avatar.rounded}>
+                      <img style={{ width: '100%' }} src={item.hinhAnh} />
+
+                    </Avatar>
+
+                  </Grid>
+                  <Grid item xs={10}>
+                    <Typography variant="button" >{item.tenPhim}</Typography>
+                  </Grid>
+                </Grid>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography variant="body1" style={{ fontWeight: 'bold' }} gutterBottom>2D Digital</Typography>
+                {renderTime(item.lstLichChieuTheoPhim)}
+              </AccordionDetails>
+            </Accordion>
+
           </div>
+
+
         );
       }
     );
   };
   let renderTheater = () => {
-      return theaterFilmArr[brandIndex]?.lstCumRap.map((cumRap, i) =>{
-        // let theaterInfo = [];
-        return (
-          <a
-            onClick={() => {
-              setfilmIndex(i);
-            }}
-            key={i}
-            style={{ cursor: "pointer" }}
-            className="row"
-          >
-            <div className="col-md-3">
-              <img src="./img/address-1.png" />
-            </div>
-            <div className="col-md-9 theater-text">
-              <span className="theater-name">{cumRap.tenCumRap}</span>
-              <span className="theater-area">Bitexco</span>
-              <p className="theater-address">{cumRap.diaChi}</p>
-              <NavLink 
-              
-              onClick={() =>{
+    return theaterFilmArr[brandIndex]?.lstCumRap.map((cumRap, i) => {
+      return (
+        <a
+          onClick={() => {
+            setfilmIndex(i);
+          }}
+          key={i}
+          style={{ cursor: "pointer" }}
+          className="row"
+        >
+          <div className="col-md-3">
+            <img src={theaterFilmArr[brandIndex]?.logo} />
+          </div>
+          <div className="col-md-9 theater-text">
+            <span className="theater-name">{cumRap.tenCumRap}</span>
+            <p className="theater-address">{cumRap.diaChi}</p>
+            <NavLink
+
+              onClick={() => {
                 dispatch({
                   type: 'SET_THEATER_INFO',
                   theaterInfo: {
@@ -124,12 +221,12 @@ export default function Calender() {
                   }
                 })
               }}
-              
-              to={`/theaterdetail/${theaterFilmArr[brandIndex].maHeThongRap}`}  className="theater-detail">[Chi Tiết]</NavLink>
-            </div>
-          </a>
-        );
-      })
+
+              to={`/theaterdetail/${theaterFilmArr[brandIndex].maHeThongRap}`} className="theater-detail">[Chi Tiết]</NavLink>
+          </div>
+        </a>
+      );
+    })
   };
 
   return <section id="calender">{render()}</section>;
