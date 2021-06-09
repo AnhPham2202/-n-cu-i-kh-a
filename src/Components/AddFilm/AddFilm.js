@@ -24,17 +24,16 @@ const useButton = makeStyles((theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
+            display: 'block',
+            width: '50%',
+            background: 'rgba(245, 0, 87, 0.8);',
+            transition: 'all 0.25s',
+            '&:hover': {
+                background: "rgba(245, 0, 87, 0.75);",
+                opacity: '0.8'
+            },
         },
-        margin: theme.spacing(1),
-        display: 'block',
-        width: '50%',
-        background: 'rgba(245, 0, 87, 0.8);',
-        transition: 'all 0.25s',
-        padding: '0',
-        '&:hover': {
-            background: "rgba(245, 0, 87, 0.75);",
-            opacity: '0.8'
-        },
+
     },
 
 }));
@@ -99,10 +98,12 @@ export default function AddFilm() {
                     <TextField onChange={handleChange} id="moTa" label="Mô tả" variant="outlined" />
                     <TextField onChange={handleChange} id="trailer" label="Link trailer" variant="outlined" />
                     <TextField onChange={handleChange} id="ngayKhoiChieu" label="Lịch chiếu" variant="outlined" />
-
-                    <Button type="submit" className={btn.root} variant="contained" color="secondary">
-                        Thêm phim
+                    <div className={btn.root}>
+                        <Button type="submit" variant="contained" color="secondary">
+                            Thêm phim
                     </Button>
+                    </div>
+
                 </form>
             </ListItem>
         </List>

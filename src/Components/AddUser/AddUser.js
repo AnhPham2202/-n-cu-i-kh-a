@@ -39,17 +39,16 @@ const useButton = makeStyles((theme) => ({
     root: {
         '& > *': {
             margin: theme.spacing(1),
+            display: 'block',
+            width: '50%',
+            background: 'rgba(245, 0, 87, 0.8);',
+            transition: 'all 0.25s',
+            '&:hover': {
+                background: "rgba(245, 0, 87, 0.75);",
+                opacity: '0.8'
+            },
         },
-        margin: theme.spacing(1),
-        display: 'block',
-        width: '50%',
-        background: 'rgba(245, 0, 87, 0.8);',
-        transition: 'all 0.25s',
-        padding: '0',
-        '&:hover': {
-            background: "rgba(245, 0, 87, 0.75);",
-            opacity: '0.8'
-        },
+
     },
 
 }));
@@ -76,7 +75,7 @@ export default function AddUser() {
     // const [matKhau, setMatKhau] = useState()
     // const [email, setEmail] = useState()
     // const [soDt, setSoDt] = useState()
-    
+
     const [user, setUser] = useState({
         taiKhoan: '',
         matKhau: '',
@@ -94,7 +93,7 @@ export default function AddUser() {
     }
 
     const handleSelectChange = (event) => {
-        setUser({...user, maLoaiNguoiDung: event.target.value})
+        setUser({ ...user, maLoaiNguoiDung: event.target.value })
     };
 
 
@@ -133,9 +132,11 @@ export default function AddUser() {
                             <option value='QuanTri'>Quản trị viên</option>
                         </Select>
                     </FormControl>
-                    <Button type="submit" className={btn.root} variant="contained" color="secondary">
-                        Thêm người dùng
-                    </Button>
+                    <div className={btn.root}>
+                        <Button type="submit" variant="contained" color="secondary">
+                            Thêm người dùng
+                        </Button>
+                    </div>
                 </form>
             </ListItem>
         </List>
