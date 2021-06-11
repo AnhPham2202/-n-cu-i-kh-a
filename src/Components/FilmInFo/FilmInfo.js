@@ -10,7 +10,7 @@ export default function FilmInfo(props) {
   console.log(filmDetail);
   let { id } = props.match.params;
   let ngayKhoiChieu = filmDetail.ngayKhoiChieu?.split("T")[0];
-  let thoiLuong = filmDetail.heThongRapChieu?.[0].cumRapChieu[0].lichChieuPhim[0].thoiLuong;
+  let thoiLuong = filmDetail.heThongRapChieu?.[0]?.cumRapChieu?.[0].lichChieuPhim[0].thoiLuong;
 
   useEffect(() => {
     dispatch(getFilmDetailFromApi(id));

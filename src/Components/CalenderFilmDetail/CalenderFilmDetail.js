@@ -29,7 +29,7 @@ export default function CalenderFilmDetail(props) {
     let noDuplicatedDate = [];
 
     // Cần tối ưu  và đổi tên biến
-    filmDetail.heThongRapChieu?.[theater].cumRapChieu.map((cumRap, index) => {
+    filmDetail.heThongRapChieu?.[theater]?.cumRapChieu.map((cumRap, index) => {
       cumRap.lichChieuPhim.map((lichChieu, i) => {
         showTimeArr.push(lichChieu.ngayChieuGioChieu);
       });
@@ -145,7 +145,7 @@ export default function CalenderFilmDetail(props) {
   };
 
   let renderTheater = () => {
-    return filmDetail.heThongRapChieu?.[theater].cumRapChieu.map(
+    return filmDetail.heThongRapChieu?.[theater]?.cumRapChieu.map(
       (theater, index) => {
         return (
           <a key={index} style={{ cursor: "pointer" }} className="row theater-total">

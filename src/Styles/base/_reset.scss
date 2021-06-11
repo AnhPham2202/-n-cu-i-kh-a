@@ -10,8 +10,11 @@
     outline: none;
 }
 a{
+    color: black;
     &:hover{
         text-decoration: none;
+        color: black
+
     }
 }
 .slick-next::before{

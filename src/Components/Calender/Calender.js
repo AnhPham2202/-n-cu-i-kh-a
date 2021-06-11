@@ -17,57 +17,6 @@ import Paper from '@material-ui/core/Paper';
 import { Button } from "@material-ui/core";
 import TodayIcon from '@material-ui/icons/Today';
 import Avatar from '@material-ui/core/Avatar';
-import PropTypes from 'prop-types';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-
-
-
-function TabPanel(props) {
-  const { children, value, index, value1, setPadding, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={setPadding}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
-
-const useTabs = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 224,
-  },
-  tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
-}));
 
 
 const useAccordion = makeStyles((theme) => ({
@@ -102,9 +51,15 @@ const useButton = makeStyles((theme) => ({
   root: {
     '& > *': {
       margin: theme.spacing(0.5),
-      color: 'green'
     },
   },
+  colorGreen: {
+    color: 'green',
+    '&:hover': {
+      color: 'green',
+
+    }
+  }
 }));
 const useAvatar = makeStyles((theme) => ({
   root: {
@@ -115,7 +70,6 @@ const useAvatar = makeStyles((theme) => ({
   },
   rounded: {
     color: '#fff',
-    background: 'transparent'
   },
 }));
 
@@ -125,17 +79,7 @@ export default function Calender() {
   const grid = useGrid();
   const btn = useButton()
   const avatar = useAvatar();
-  const [expanded, setExpanded] = React.useState(false);
-  const tabs = useTabs();
-  const [value, setValue] = React.useState(0);
-  const handleChangeTab = (event, newValue) => {
-    setValue(newValue);
-  };
-  const [value1, setValue1] = React.useState(0);
-  const handleChangeTab1 = (event, newValue) => {
-    setValue1(newValue);
-  };
-
+  const [expanded, setExpanded] = useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -168,87 +112,18 @@ export default function Calender() {
 
   let render = () => {
     return (
-      <div className={tabs.root}>
-        <Tabs
-          orientation="vertical"
-          variant="scrollable"
-          value={value}
-          onChange={handleChangeTab}
-          aria-label="Vertical tabs example"
-          className={tabs.tabs}
-        >
-          {renderLogo()}
-
-        </Tabs>
-        <TabPanel value={value} index={0}>
-          <div className={tabs.root}>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value1}
-              onChange={handleChangeTab1}
-              aria-label="Vertical tabs example1"
-              className={tabs.tabs}
-            >
-              {/* <Tab label="Item One1" {...a11yProps(0)} />
-              <Tab label="Item Two1" {...a11yProps(1)} />
-              <Tab label="Item Three1" {...a11yProps(2)} /> */}
-              {renderTheater()}
-
-            </Tabs>
-            <TabPanel setPadding={3} value={value1} index={0}>
-              Item One1
-              </TabPanel>
-            <TabPanel setPadding={3} value={value1} index={1}>
-              Item Two1
-              </TabPanel>
-            <TabPanel setPadding={3} value={value1} index={2}>
-              Item Three1
-              </TabPanel>
+      <div className="total-table container ">
+        <div className="row table-height">
+          <div className="col-md-1">{renderLogo()}</div>
+          <div className="col-md-5">
+            <div className="tab-content">
+              <div className="tab-pane container active ">
+                {renderTheater()}
+              </div>
+            </div>
           </div>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <div className={tabs.root}>
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value1}
-              onChange={handleChangeTab1}
-              aria-label="Vertical tabs example1"
-              className={tabs.tabs}
-            >
-              {/* <Tab label="Item One1" {...a11yProps(0)} />
-              <Tab label="Item Two1" {...a11yProps(1)} />
-              <Tab label="Item Three1" {...a11yProps(2)} /> */}
-              {renderTheater()}
-
-            </Tabs>
-            <TabPanel setPadding={3} value={value1} index={0}>
-              Item One2
-              </TabPanel>
-            <TabPanel setPadding={3} value={value1} index={1}>
-              Item Two2
-              </TabPanel>
-            <TabPanel setPadding={3} value={value1} index={2}>
-              Item Three2
-              </TabPanel>
-          </div>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={value} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={value} index={6}>
-          Item Seven
-        </TabPanel>
+          <div className="col-md-6">{renderFilm()}</div>
+        </div>
       </div>
     );
   };
@@ -257,20 +132,37 @@ export default function Calender() {
     let logo = [];
     theaterFilmArr.map((theaterInfo, index) => {
       logo.push(
-        <Tab onClick={() => setBrandIndex(index)} label={<img src={theaterInfo.logo} />} {...a11yProps(index)} />
+        <li key={index} className="left-col nav-item ">
+          <a
+            onClick={() => {
+              // setTheater(theaterInfo.maHeThongRap);
+              setBrandIndex(index)
+              setExpanded(false)
+            }}
+            className="nav-link "
+            data-toggle="tab"
+            href={`#calender${index + 1}`}
+          ><Button>
+              <img src={theaterInfo.logo} />
+            </Button>
+          </a>
+        </li>
       );
     });
     return (
-      logo
+      <ul className="nav nav-tabs">{logo}</ul>
     );
   };
   const renderTime = (timeArr) => {
     return timeArr.map((time, index) => {
+      console.log(time);
       return (
         <span className={btn.root}>
           <Button variant="outlined">
-            <TodayIcon style={{ marginRight: 2, color: 'black' }} />
-            {time.ngayChieuGioChieu.replace('T', ' lúc ')}
+            <NavLink className={btn.colorGreen} to={`/chitietphongve/${time.maLichChieu}`}>
+              <TodayIcon style={{ marginRight: 2, color: 'black' }} />
+              {time.ngayChieuGioChieu.replace('T', ' lúc ')}
+            </NavLink>
           </Button>
         </span>
       )
@@ -280,10 +172,8 @@ export default function Calender() {
     return theaterFilmArr[brandIndex]?.lstCumRap[filmIndex]?.danhSachPhim.map(
       (item, index) => {
         return (
-
           <div className={accordion.root}>
             <Accordion expanded={expanded === index} onChange={handleChange(index)}>
-
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
@@ -304,16 +194,17 @@ export default function Calender() {
               <AccordionDetails>
                 <Typography variant="body1" style={{ fontWeight: 'bold' }} gutterBottom>2D Digital</Typography>
                 <div style={{ textAlign: "center" }} className={btn.root} >
-                  <Button variant="outlined" onClick={() => console.log(123)} >Xem tất cả lịch chiếu </Button>
+                  <Button variant="outlined">
+                    <NavLink to={`/filmdetail/${item.maPhim}`}>
+                      Xem tất cả lịch chiếu
+                    </NavLink>
+                  </Button>
 
                 </div>
                 {renderTime(item.lstLichChieuTheoPhim)}
               </AccordionDetails>
             </Accordion>
-
           </div>
-
-
         );
       }
     );
@@ -321,62 +212,42 @@ export default function Calender() {
   let renderTheater = () => {
     return theaterFilmArr[brandIndex]?.lstCumRap.map((cumRap, i) => {
       return (
-        // <TabPanel value={value} index={0}>
-        //   <div className={tabs.root}>
-        //     <Tabs
-        //       orientation="vertical"
-        //       variant="scrollable"
-        //       value={value1}
-        //       onChange={handleChangeTab1}
-        //       aria-label="Vertical tabs example1"
-        //       className={tabs.tabs}
-        //     >
-        //       {/* <Tab label="Item One1" {...a11yProps(0)} />
-        //       <Tab label="Item Two1" {...a11yProps(1)} />
-        //       <Tab label="Item Three1" {...a11yProps(2)} /> */}
-        //       
-        // <Tab label={
-        //   <Grid container spacing={3}>
-        //     <Grid item xs={2}>
-        //       <Avatar variant="rounded" className={avatar.rounded}>
-        //         <img style={{ width: '100%' }} src={theaterFilmArr[brandIndex]?.logo} />
-        //       </Avatar>
+        <a
+          onClick={() => {
+            setfilmIndex(i);
+            setExpanded(false)
 
-        //     </Grid>
-        //     <Grid item xs={10}>
-        //       <Typography variant="button" >{cumRap.tenCumRap}</Typography>
-        //       <Typography variant="button" >{cumRap.diaChi}</Typography>
-        //     </Grid>
-        //   </Grid>
-        // } {...a11yProps(i)} />
+          }}
+          key={i}
+          style={{ cursor: "pointer" }}
+          className="row"
+        >
+          <div className="col-md-3">
+            <img src={theaterFilmArr[brandIndex]?.logo} />
+          </div>
+          <div className="col-md-9 theater-text">
+            <Typography variant="button" className="theater-name" gutterBottom>
+              {cumRap.tenCumRap}
+            </Typography>
+            <Typography variant="body2" className="theater-address" display="block" gutterBottom>
+              {cumRap.diaChi}
+            </Typography>
+            <NavLink
 
-        //     </Tabs>
-        //     <TabPanel setPadding={3} value={value1} index={0}>
-        //       Item One1
-        //       </TabPanel>
-        //     <TabPanel setPadding={3} value={value1} index={1}>
-        //       Item Two1
-        //       </TabPanel>
-        //     <TabPanel setPadding={3} value={value1} index={2}>
-        //       Item Three1
-        //       </TabPanel>
-        //   </div>
-        // </TabPanel>
-        // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        <Tab label={
-          <Grid container spacing={3}>
-            <Grid item xs={2}>
-              <Avatar variant="rounded" className={avatar.rounded}>
-                <img style={{ width: '100%' }} src={theaterFilmArr[brandIndex]?.logo} />
-              </Avatar>
+              onClick={() => {
+                dispatch({
+                  type: 'SET_THEATER_INFO',
+                  theaterInfo: {
+                    name: 'name',
+                    address: 'address',
+                    firstRender: i
+                  }
+                })
+              }}
 
-            </Grid>
-            <Grid item xs={10}>
-              <Typography variant="button" >{cumRap.tenCumRap}</Typography>
-              <Typography variant="button" >{cumRap.diaChi}</Typography>
-            </Grid>
-          </Grid>
-        } {...a11yProps(i)} />
+              to={`/theaterdetail/${theaterFilmArr[brandIndex].maHeThongRap}`} className="theater-detail">[Chi Tiết]</NavLink>
+          </div>
+        </a>
       );
     })
   };

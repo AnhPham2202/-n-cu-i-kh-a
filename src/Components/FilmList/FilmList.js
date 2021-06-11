@@ -3,6 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFilmFromApi } from '../../Redux/Actions/FilmAction'
 import Slider from "react-slick";
 import { NavLink } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import Typography from '@material-ui/core/Typography';
+
 
 
 export default function FilmList(propsRoute) {
@@ -10,9 +14,9 @@ export default function FilmList(propsRoute) {
     let filmArr = useSelector((state) => state.PhimListReducer.filmArr)
 
     useEffect(async () => {
-        dispatch(getFilmFromApi('GP02'))
+        dispatch(getFilmFromApi('GP03'))
     }, [])
-    filmArr.reverse().splice(0,4)
+    filmArr.reverse().splice(0, 4)
     const renderFilm = (i) => {
         return (
             filmArr.slice(i, i + 8).map((film, index) => {
@@ -26,13 +30,19 @@ export default function FilmList(propsRoute) {
                         <div class="film-info">
                             <div className="film-name">
                                 <span class="age-limit mr-2">C18</span>
-                                <span>{film.tenPhim} (C18)</span>
+                                <Typography variant="button"  gutterBottom>
+                                    {film.tenPhim} 
+                                </Typography>
+
                             </div>
-                            <p>120 phút</p>
+                            {/* <Typography variant="body2"  gutterBottom>
+                                    120 phút
+                                </Typography> */}
+
                             <NavLink to={`/filmdetail/${film.maPhim}`}>
-                            <button class="btn btn-danger">MUA VÉ</button>
+                                <button class="btn btn-danger">MUA VÉ</button>
                             </NavLink>
-                            
+
                         </div>
                     </div>
                 )
@@ -44,18 +54,18 @@ export default function FilmList(propsRoute) {
 
     const renderCarousel = () => {
         let num = Math.floor(filmArr.length / 8);
-        if(filmArr.length % 8 !== 0){
-            num +=1
+        if (filmArr.length % 8 !== 0) {
+            num += 1
         }
 
 
         let filmCarouselArr = []
         for (let i = 0; i < num; i++) {
-                filmCarouselArr.push(
-                    <div class="list-line-1">
-                        {renderFilm(i + 7 * i)}
-                    </div>
-                )
+            filmCarouselArr.push(
+                <div class="list-line-1">
+                    {renderFilm(i + 7 * i)}
+                </div>
+            )
         }
         return (
             <Slider>

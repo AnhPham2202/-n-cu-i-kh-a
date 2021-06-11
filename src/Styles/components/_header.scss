@@ -36,15 +36,9 @@ header{
         @extend img;
         height: 30px;
     }
-    span{
-        margin-right:  15px;
-    }
-    .heading-location{
-        padding-left: 20px;
-        border-left:  solid 1px #00000036;
-    }
+
     a{
-        color: $light-gray;
+        color: black;
         &:hover{
             @extend a;
         }

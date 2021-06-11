@@ -27,8 +27,8 @@ const useTable = makeStyles({
 function createData(tenPhim, ngayDat, thoiLuongPhim, tenHeThongRap, tenGhe, maVe, giaVe) {
     return { tenPhim, ngayDat, thoiLuongPhim, tenHeThongRap, tenGhe, maVe, giaVe };
 }
-const rows = [];
 export default function TicketInfoTable() {
+    const rows = [];
     const table = useTable();
     const dispatch = useDispatch()
     const thongTinTaiKhoan = useSelector(state => state.UserReducer.thongTinTaiKhoan)
