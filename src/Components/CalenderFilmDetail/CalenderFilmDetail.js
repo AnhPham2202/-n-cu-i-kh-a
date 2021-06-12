@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
@@ -6,181 +6,228 @@ import {
   getLogoFromApi,
   getTheaterFilmFromApi,
 } from "../../Redux/Actions/FilmAction";
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Button from '@material-ui/core/Button';
+import TodayIcon from '@material-ui/icons/Today';
+
+const useAccordion = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  accordionDetail: {
+    display: 'inline-block'
+  }
+
+}));
+
+
+const useGrid = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
+
+const useAvatar = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      style={{
+        overflow: 'auto',
+        width: '100%'
+      }}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `vertical-tab-${index}`,
+    'aria-controls': `vertical-tabpanel-${index}`,
+  };
+}
+
+const useTabs = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    height: 500,
+    margin: '50px 200px 0 200px',
+    '& .MuiTab-root': {
+      maxWidth: '250px'
+    },
+    '& .MuiTab-wrapper': {
+      flexDirection: 'row',
+      justifyContent: 'flex-start'
+    }
+  },
+  tabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+    minWidth: 250,
+  },
+}));
+
+
 
 export default function CalenderFilmDetail(props) {
-  //đôi tên biến demo
-  let filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
-  console.log(filmDetail);
   const dispatch = useDispatch();
+  const filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
+  const { id } = props.match.params;
+  const tabs = useTabs();
+  const avatar = useAvatar();
+  const grid = useGrid();
+  const accordion = useAccordion();
   const [theater, setTheater] = useState(0);
-  const [time, setTime] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  
 
-  let { id } = props.match.params;
+  const handleExpand = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+
+  const [value, setValue] = useState(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+
+  //đôi tên biến demo
+
   useEffect(() => {
     dispatch(getFilmDetailFromApi(id));
   }, []);
 
-  let handleSchedule = () => {
-    //HÀM XỬ LÝ API ĐỂ LẤY ĐƯỢC NGÀY CHIẾU VÀ XỬ LÝ ĐỂ KHÔNG BỊ TRÙNG
-
-    let showTimeArr = [];
-    let dateShowTimeArr = [];
-    let dateSplitedFromShowTime = [];
-    let noDuplicatedDate = [];
-
-    // Cần tối ưu  và đổi tên biến
-    filmDetail.heThongRapChieu?.[theater]?.cumRapChieu.map((cumRap, index) => {
-      cumRap.lichChieuPhim.map((lichChieu, i) => {
-        showTimeArr.push(lichChieu.ngayChieuGioChieu);
-      });
-    });
-
-    showTimeArr.map((showTimeElement, i) => {
-      dateSplitedFromShowTime = showTimeElement.split("T");
-      dateShowTimeArr.push(dateSplitedFromShowTime[0]);
-    });
-
-    dateShowTimeArr.map((date, index) => {
-      // Ý TƯỞNG: PUSH VÀO MẢNG MỚI RỒI LẤY PHẦN TỬ VỪA PUSH SO SÁNH VỚI CÁC PHẦN TỬ ĐÃ PUSH (TRỪ NÓ) NẾU TRÙNG THÌ SPLICE RA
-      noDuplicatedDate.push(date);
-      noDuplicatedDate.reverse();
-      for (let i = 1; i < noDuplicatedDate.length; i++) {
-        if (noDuplicatedDate[i] === date) {
-          noDuplicatedDate.splice(0, 1);
-        }
-      }
-    });
-    return formatSchedule(noDuplicatedDate);
-  };
-
-
-  let formatSchedule = (scheduleArr) => {
-    return scheduleArr.map((item, index) => {
-      let stringArr = [];
-      let dateString = "";
-
-      stringArr = item.split("-");
-      dateString = "Tháng " + stringArr[1] + "-" + stringArr[2] + "-" + stringArr[0];
-        return (
-          <div className={item === time ? "date text-color" : "date"}>
-            <a onClick={() => {
-              setTime(item);
-              // renderA(dateString, filmDetail.heThongRapChieu?.[theater].cumRapChieu)
-            }} className="font-weight-bold ">
-              {dateString}
-            </a>
-          </div>
-        )
-      
-      
-    });
-  };
-
-  // let renderA = (dateString, cumRapChieu) => {
-  //   let date = "";
-  //   let time = [];
-  //   let originalFormatDateStringArr = [];
-
-  //   originalFormatDateStringArr = dateString.split(" ").pop().split("-");
-  //   date = originalFormatDateStringArr[2] + "-" + originalFormatDateStringArr[0] + "-" + originalFormatDateStringArr[1];
-  //   console.log(date);
-  //   cumRapChieu.map((lichChieuInfo, index) => {
-  //     lichChieuInfo.lichChieuPhim.map((showTime, i) => {
-  //       if (showTime.ngayChieuGioChieu.split("T")[0] === date) {
-  //         time.push(showTime.ngayChieuGioChieu.split("T")[1]);
-  //       }
-  //     });
-  //   });
-  //   console.log(time);
-  // };
-
-  let renderTime = (arr) => {
-    return arr.map((lichChieuPhim, index) => {
-      let schedule = {
-        date: "",
-        time: "",
-      };
-      schedule.date = lichChieuPhim.ngayChieuGioChieu.split("T")[0];
-      schedule.time = lichChieuPhim.ngayChieuGioChieu.split("T")[1];
-      if (time === schedule.date) {
-        return (
-          <button className="btn time-btn mr-2">{schedule.time}</button>
-        );
-      }
-    });
-  };
 
   // =================================================MAIN UI================================================
   let renderLogo = () => {
     return filmDetail.heThongRapChieu?.map((theaterInfo, index) => {
-        return (
-          <li
-            style={{ cursor: "pointer" }}
-            key={index}
-            className="left-col nav-item w-100 "
-          >
-            <a
-              onClick={() => {
-                setTime("");
-                setTheater(index);
-              }}
-              className={index === theater ? 'nav-link text-center active' : 'nav-link text-center'}
-              data-toggle="tab"
-            >
-              <div className="row">
-                <div className="col-4">
-                  <img src={theaterInfo.logo} />
-                </div>
-                <div className="col-8 logo-name text-left">
-                  <span className="">
-                    {theaterInfo.tenHeThongRap.toUpperCase()}
-                  </span>
-                </div>
-              </div>
-            </a>
-          </li>
-        );
-      
+      return (
+        <Tab onClick={() => {
+          setExpanded(false)
+          setTheater(index)
+        }} label={
+          <div className={avatar.root}>
+            <Avatar src={theaterInfo.logo} />
+            <Typography variant="button" display="block" gutterBottom>
+              {theaterInfo.tenHeThongRap}
+            </Typography>
+          </div>
+        } {...a11yProps(index)} />
+      );
     });
   };
 
   let renderTheater = () => {
     return filmDetail.heThongRapChieu?.[theater]?.cumRapChieu.map(
-      (theater, index) => {
+      (cumRap, index) => {
+        console.log(cumRap)
         return (
-          <a key={index} style={{ cursor: "pointer" }} className="row theater-total">
-            <div className="col-md-3">
-              <img src="./img/address-1.png" />
-            </div>
-            <div className="col-md-9">
-              <p className="theater-name">{theater.tenCumRap}</p>
-              <span className="theater-detail">
-                {renderTime(theater.lichChieuPhim)}
-              </span>
-            </div>
-          </a>
+          <div className={accordion.root}>
+            <Accordion expanded={expanded === index} onChange={handleExpand(index)}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <div key={index} className={grid.root}>
+                  <Grid container spacing={5}>
+                    <Grid item xs={1}>
+                      <Avatar src={filmDetail.heThongRapChieu[theater].logo} />
+                    </Grid>
+                    <Grid item xs={11}>
+                      <Typography variant="button" display="span" gutterBottom>
+                        {cumRap.tenCumRap}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </div>
+              </AccordionSummary>
+              {renderTime(cumRap.lichChieuPhim)}
+            </Accordion>
+          </div>
+
         );
       }
     );
   };
 
+  let renderTime = (lichChieu) => {
+    return lichChieu.map((lich, index) => {
+      return (
+        <AccordionDetails className={accordion.accordionDetail}>
+          <Button variant="outlined">
+            <NavLink to={`/chitietphongve/${lich.maLichChieu}`}>
+              <TodayIcon style={{ marginRight: 2, color: 'black' }} />
+              {lich.ngayChieuGioChieu.replace('T', ' lúc ')} ({lich.tenRap})
+            </NavLink>
+          </Button>
+        </AccordionDetails>
+      )
+    })
+  }
+
+
   return (
-    <section id="calender-film-detail">
-      <div className="total-table container ">
-        <div className="row table-height">
-          <div className="col-md-3 logo">
-            <ul className="nav nav-tabs">{renderLogo()}</ul>
-          </div>
-          <div className="col-md-9">
-            <div className="row schedule-scroll-bar">{handleSchedule()}</div>
-            <div className="tab-content">
-              <div className="tab-pane container active ">
-                {renderTheater()}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+    <div className={tabs.root}>
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={tabs.tabs}
+      >
+        {renderLogo()}
+
+      </Tabs>
+      <TabPanel value={value} index={value}>
+        {renderTheater()}
+      </TabPanel>
+    </div>
+  )
+
 }
