@@ -64,7 +64,7 @@ export const datVe = (info, token) => {
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             dispatch({
-                type: 'DAT_VE',
+                type: 'RESET_MANG_GHE',
             })
         } catch (error) {
             console.log(error);

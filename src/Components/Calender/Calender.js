@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import { Button } from "@material-ui/core";
 import TodayIcon from '@material-ui/icons/Today';
 import Avatar from '@material-ui/core/Avatar';
+import { setThongTinRapTheoIndex } from "../../Redux/Actions/TheaterActions";
 
 
 const useAccordion = makeStyles((theme) => ({
@@ -87,7 +88,6 @@ export default function Calender() {
 
 
 
-  let logoArr = useSelector((state) => state.TheaterListReducer.logoArr);
   let theaterArr = useSelector((state) => state.TheaterListReducer.theaterArr);
   let theaterFilmArr = useSelector(
     (state) => state.TheaterListReducer.theaterFilmArr
@@ -235,14 +235,11 @@ export default function Calender() {
             <NavLink
 
               onClick={() => {
-                dispatch({
-                  type: 'SET_THEATER_INFO',
-                  theaterInfo: {
-                    name: 'name',
-                    address: 'address',
-                    firstRender: i
-                  }
-                })
+                dispatch(setThongTinRapTheoIndex({
+                  name: cumRap.tenCumRap,
+                  address: cumRap.diaChi,
+                  firstRender: i
+              }))
               }}
 
               to={`/theaterdetail/${theaterFilmArr[brandIndex].maHeThongRap}`} className="theater-detail">[Chi Tiết]</NavLink>

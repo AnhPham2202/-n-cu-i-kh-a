@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 export default function FilmList(propsRoute) {
     const dispatch = useDispatch()
-    let filmArr = useSelector((state) => state.PhimListReducer.filmArr)
+    let filmArr = useSelector((state) => state.FilmDetailReducer.filmArr)
 
     useEffect(async () => {
         dispatch(getFilmFromApi('GP03'))

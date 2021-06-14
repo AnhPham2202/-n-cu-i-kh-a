@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
   getFilmDetailFromApi,
-  getLogoFromApi,
   getTheaterFilmFromApi,
 } from "../../Redux/Actions/FilmAction";
 import PropTypes from 'prop-types';
@@ -103,6 +102,10 @@ const useTabs = makeStyles((theme) => ({
     '& .MuiTab-wrapper': {
       flexDirection: 'row',
       justifyContent: 'flex-start'
+    },
+    '& .MuiTab-textColorInherit.Mui-selected ': {
+       background: 'orange',
+       color: 'white' 
     }
   },
   tabs: {
@@ -115,7 +118,7 @@ const useTabs = makeStyles((theme) => ({
 
 export default function CalenderFilmDetail(props) {
   const dispatch = useDispatch();
-  const filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
+  const filmDetail = useSelector((state) => state.FilmDetailReducer.chiTietPhim);
   const { id } = props.match.params;
   const tabs = useTabs();
   const avatar = useAvatar();

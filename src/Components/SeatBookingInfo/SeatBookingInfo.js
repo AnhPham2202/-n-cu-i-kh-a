@@ -1,11 +1,28 @@
 import React, { Fragment, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { layChiTietPhongVe } from '../../Redux/Actions/FilmAction'
-import { xoaGhe } from '../../Redux/Actions/TicketBookingActions'
+import { layChiTietPhongVe, xoaGhe } from '../../Redux/Actions/TicketBookingActions'
 import { datVe } from '../../Redux/Actions/UserActions'
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useText = makeStyles({
+    root: {
+        width: '100%',
+        maxWidth: 500,
+        textAlign: 'center',
+        color: 'green',
+        padding: 20,
+        borderBottom: '1px solid #e9e9e9'
+    },
+    lineFormat: {
+        borderBottom: '1px solid #e9e9e9',
+        padding: '15px 0'
+    }
+});
 
 export default function SeatBookingInfo(props) {
     const dispatch = useDispatch()
+    const text = useText()
     const thongTinChiTietPhongVe = useSelector(state => state.TicketBookingReducer.thongTinChiTietPhongVe)
     const mangGheDangDat = useSelector(state => state.TicketBookingReducer.mangGheDangDat)
     const { malichchieu } = props.match.params
@@ -18,15 +35,24 @@ export default function SeatBookingInfo(props) {
 
     useEffect(() => {
         dispatch(layChiTietPhongVe(malichchieu))
+        dispatch({
+            type: 'RESET_MANG_GHE'
+        })
     }, [])
 
     let renderThongTinPhimVaRap = () => {
         let { diaChi, gioChieu, hinhAnh, ngayChieu, tenCumRap, tenPhim, tenRap } = thongTinChiTietPhongVe.thongTinPhim ?? ''
         return (
-            <div className="container">
-                <h5 className="mt-4">{tenPhim}</h5>
-                <p>{tenCumRap}</p>
-                <i>{tenRap}</i>
+            <div className={text.lineFormat}>
+                <Typography variant="h6">
+                    {tenPhim}
+                </Typography>
+                <Typography variant="body2">
+                    {diaChi}
+                </Typography>
+                <Typography variant="body2">
+                    {`${ngayChieu} - ${gioChieu} - ${tenRap}`}
+                </Typography>
             </div>
 
         )
@@ -37,50 +63,58 @@ export default function SeatBookingInfo(props) {
             thongTinDatVe.danhSachVe.push({
                 maGhe: gheDangChon.maGhe,
                 giaVe: gheDangChon.giaVe,
-              })
-            return (
-                <tr key={index}>
-                    <td>{gheDangChon.tenGhe}</td>
-                    <td>{gheDangChon.giaVe} đ</td>
-                    <td style={{ padding: '6px 12px' }}>
-                        <button onClick={() => { dispatch(xoaGhe(gheDangChon)) }} className="btn btn-danger">X</button>
-                    </td>
-                </tr>
-            )
+            })
+            if (gheDangChon.loaiGhe === 'Thuong') {
+                return (
+                    `${gheDangChon.tenGhe}, `
+
+                )
+            }
+        })
+    }
+    let renderGheDangDatVIP = () => {
+        return mangGheDangDat.map((gheDangChon, index) => {
+            if (gheDangChon.loaiGhe === 'Vip') {
+                return (
+                    `${gheDangChon.tenGhe}, `
+                )
+            }
         })
     }
     let renderTongTien = () => {
         let tongTien = 0
         mangGheDangDat.map((gheDangChon, index) => {
             tongTien += gheDangChon.giaVe
-            return tongTien
+
         })
-        return tongTien
+        return (
+            <Typography variant="h4">
+                {tongTien + " đ"}
+            </Typography>
+        )
+
     }
     return (
         <Fragment>
+            <div className={text.root}>
+                {renderTongTien()}
+            </div>
             {renderThongTinPhimVaRap()}
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Ghế</th>
-                        <th>Giá</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {renderGheDangDat()}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td>Thành tiền</td>
-                        <td>{renderTongTien()} đ</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div className={text.lineFormat}>
+                <Typography variant="caption" display="block" gutterBottom>
+                    Ghế thường: {renderGheDangDat()}
+                </Typography>
+            </div>
+            <div className={text.lineFormat}>
+                <Typography variant="caption" display="block" gutterBottom>
+                    Ghế VIP: {renderGheDangDatVIP()}
+                </Typography>
+            </div>
+
+
             <button onClick={() => {
-                dispatch(datVe(thongTinDatVe, user.accessToken))}} className="btn buy-ticket-btn">Mua Vé</button>
+                dispatch(datVe(thongTinDatVe, user.accessToken))
+            }} className="btn buy-ticket-btn">Mua Vé</button>
         </Fragment>
     )
 }

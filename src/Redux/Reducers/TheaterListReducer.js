@@ -1,5 +1,4 @@
 const initialState = {
-    logoArr:[],
     theaterArr:[],
     theaterFilmArr: [],
     theaterAccordingToFilm: [],
@@ -14,10 +13,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_LOGO': {
-            state.logoArr = action.logoArr
-            return {...state}
-        }
+      
         case 'SET_RAP_PHIM':{
             state.theaterArr = action.theaterArr
             return {...state}

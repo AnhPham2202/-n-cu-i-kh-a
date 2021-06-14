@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
             state.mangGheDangDat = mangGheCapNhat
             return { ...state }
         }
-        case 'DAT_VE': {
+        case 'RESET_MANG_GHE': {
             let mangRong = []
             state.mangGheDangDat = mangRong
             return { ...state }

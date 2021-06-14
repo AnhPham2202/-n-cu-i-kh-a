@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { layChiTietPhongVe } from '../../Redux/Actions/FilmAction'
+import { layChiTietPhongVe } from '../../Redux/Actions/TicketBookingActions'
 import { themGhe } from '../../Redux/Actions/TicketBookingActions'
+import screen from '../../assets/img/screen.png'
 
 
 export default function SeatMap(props) {
@@ -49,7 +50,7 @@ export default function SeatMap(props) {
     }
     let renderGhiChu = () => {
         return (
-            <div className="mt-4" style={{display: 'flex', justifyContent:'space-between', paddingTop: '30px'}}>
+            <div className="mt-4 mb-4" style={{display: 'flex', justifyContent:'space-between', paddingTop: '30px'}}>
                 <div>
                     <button className="btn seat-btn btn bg-secondary" style={{width: "30px", height: '30px'}}></button>
                     <span className="ml-2">Ghế Thường</span>
@@ -71,7 +72,8 @@ export default function SeatMap(props) {
     }
     return (
         <div className="container">
-            <div className='bg-dark text-center text-white mb-5' >Màn hình</div>
+            <img className="w-100" src={screen}></img> 
+            {/* <div className='bg-dark text-center text-white mb-5' >Màn hình</div> */}
             {renderSeat()}
             {renderGhiChu()}
         </div>

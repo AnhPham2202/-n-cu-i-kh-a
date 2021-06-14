@@ -6,7 +6,7 @@ import { getFilmDetailFromApi } from "../../Redux/Actions/FilmAction";
 
 export default function FilmInfo(props) {
   let dispatch = useDispatch();
-  let filmDetail = useSelector((state) => state.FilmDetailReducer.demo);
+  let filmDetail = useSelector((state) => state.FilmDetailReducer.chiTietPhim);
   console.log(filmDetail);
   let { id } = props.match.params;
   let ngayKhoiChieu = filmDetail.ngayKhoiChieu?.split("T")[0];

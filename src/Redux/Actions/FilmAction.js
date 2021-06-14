@@ -18,22 +18,7 @@ export const getFilmFromApi = (maNhom) => {
 
 }
 
-export const getLogoFromApi = () => {
-    return async (dispatch) => {
-        try {
-            const result = await axios({
-                url: "https://movie0706.cybersoft.edu.vn/api/QuanLyRap/LayThongTinHeThongRap",
-                method: "GET"
-            })
-            dispatch({
-                type: 'SET_LOGO',
-                logoArr: result.data
-            })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-}
+
 export const getTheaterFilmWithParamsFromApi = (maHeThongRap) => {
     return async (dispatch) => {
         try {
@@ -77,7 +62,7 @@ export const getFilmDetailFromApi = (id) => {
             })
             dispatch({
                 type: 'SET_FILM_DETAIL_INFO',
-                demo: result.data
+                chiTietPhim: result.data
             })
         } catch (error) {
             console.log(error);
@@ -85,21 +70,5 @@ export const getFilmDetailFromApi = (id) => {
     }
 }
 
-export const layChiTietPhongVe = (maLichChieu) => {
-    return async (dispatch) => {
-        try {
-            const result = await axios({
-                url: `https://movie0706.cybersoft.edu.vn/api/QuanLyDatVe/LayDanhSachPhongVe?MaLichChieu=${maLichChieu}`,
-                method: 'GET'
-            })
-            dispatch({
-                type: 'SET_MANG_GHE',
-                thongTinPhongVe: result.data
-            })
-        } catch (error) {
-            console.log(error.response?.data);
-        }
-        
-    }
-}
+
 
