@@ -50,7 +50,7 @@ export default function SeatMap(props) {
     }
     let renderGhiChu = () => {
         return (
-            <div className="mt-4 mb-4" style={{display: 'flex', justifyContent:'space-between', paddingTop: '30px'}}>
+            <div className="mt-4" style={{display: 'flex', justifyContent:'space-between', paddingTop: '30px'}}>
                 <div>
                     <button className="btn seat-btn btn bg-secondary" style={{width: "30px", height: '30px'}}></button>
                     <span className="ml-2">Ghế Thường</span>

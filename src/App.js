@@ -14,6 +14,9 @@ import SignIn from "./Pages/SignIn/SignIn";
 import UserPage from "./Pages/UserPage/UserPage";
 import '@fontsource/roboto';
 import Admin from "./Pages/Admin/Admin";
+import HeaderStepper from "./Components/Header/HeaderStepper";
+import { Fragment } from "react";
+import TicketBookingTemplate from "./Templates/TicketBookingTemplate/TicketBookingTemplate";
 
 
 export const history = createBrowserHistory()
@@ -28,7 +31,7 @@ function App() {
         <HomeTemplate path='/theaterdetail/:mahethongrap' component={TheaterDetail} />
         <HomeTemplate path="/filmdetail/:id" component={FilmDetail} />
         <HomeTemplate path="/" exact component={Home} />
-        <HomeTemplate path="/chitietphongve/:malichchieu" component={TicketBoongking} />
+        <TicketBookingTemplate path="/chitietphongve/:malichchieu" component={TicketBoongking} />
       </Switch>
     </Router>
   );

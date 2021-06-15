@@ -1,6 +1,7 @@
 const initialState = {
     thongTinChiTietPhongVe: {},
-    mangGheDangDat: []
+    mangGheDangDat: [],
+    stepper: 0
 }
 
 export default (state = initialState, action) => {
@@ -30,6 +31,10 @@ export default (state = initialState, action) => {
         case 'RESET_MANG_GHE': {
             let mangRong = []
             state.mangGheDangDat = mangRong
+            return { ...state }
+        }
+        case 'CHANGE_STEP': {
+            state.stepper = action.stepper
             return { ...state }
         }
 
