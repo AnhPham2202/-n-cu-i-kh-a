@@ -67,7 +67,8 @@ const useTable = makeStyles({
     root: {
         width: '100%',
         '& .MuiTableCell-stickyHeader': {
-            background: 'pink'
+            background: '#f55960',
+            color: 'white'
         }
 
     },
@@ -359,7 +360,7 @@ export default function FilmManagement() {
 
 
     return (
-        <Paper className={table.root}>
+        <div className={table.root}>
             <TableContainer className={table.container}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead className={table.header}>
@@ -397,7 +398,7 @@ export default function FilmManagement() {
                                         {row.moTa}
                                     </TableCell>
                                     <TableCell key={i} >
-                                        {row.ngayKhoiChieu.replace('T', ' lúc ')}
+                                        {row.ngayKhoiChieu.substring(0, 16).replace('T', ' lúc ')}
                                     </TableCell>
                                     <TableCell key={i} >
                                         {row.danhGia}
@@ -417,6 +418,6 @@ export default function FilmManagement() {
                 onChangePage={handleChangePage}
                 onChangeRowsPerPage={handleChangeRowsPerPage}
             />
-        </Paper>
+        </div>
     );
 }

@@ -38,11 +38,11 @@ export const xoaGhe = (gheDangChon) => {
 
     }
 }
-export const thayDoiHeaderProgress = () => {
+export const thayDoiHeaderProgress = (step) => {
     return (dispatch) => {
         dispatch({
             type: 'CHANGE_STEP',
-            stepper: 1
+            stepper: step
         })
     }
 }

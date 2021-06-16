@@ -10,6 +10,7 @@ export default function TicketBookingTemplate(props) {
                     <Fragment>
                         <HeaderStepper />
                         <props.component {...propsRoute}/>
+                        <Footer />
                     </Fragment>
                 )
             }} />

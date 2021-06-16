@@ -28,7 +28,7 @@ const useList = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     avatarItemBg: {
-        background: 'orange'
+        background: '#f55960'
     }
 }));
 

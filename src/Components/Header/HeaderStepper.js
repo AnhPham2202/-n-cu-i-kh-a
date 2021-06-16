@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import logo from './../../assets/img/logo.png'
-import avatar from './../../assets/img/avatar.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { dangXuat } from '../../Redux/Actions/UserActions'
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,25 +13,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Typography from '@material-ui/core/Typography';
-import SeatMap from '../../Components/SeatMap/SeatMap'
 
 const useStepper = makeStyles((theme) => ({
     root: {
         width: '50%',
-        padding: 0
-    },
-    button: {
-        marginRight: theme.spacing(0),
-    },
-    instructions: {
-        marginTop: theme.spacing(0),
-        marginBottom: theme.spacing(0),
+        padding: 0,
+        '& .MuiStepIcon-active':{
+            color: '#fb4226'
+        },
+        '& .MuiStepIcon-completed': {
+            color: '#44c020'
+
+        }
     },
 }));
 
 function getSteps() {
-    return ['Chọn ghế & thanh toán', 'Kết quả đặt vé' ];
+    return ['Chọn ghế & thanh toán', 'Kết quả đặt vé'];
 }
 
 
@@ -55,9 +52,7 @@ const useList = makeStyles((theme) => ({
     },
 }));
 
-function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-}
+
 
 const useDropDown = makeStyles((theme) => ({
     root: {
@@ -85,68 +80,29 @@ const useButton = makeStyles((theme) => ({
         '& > *': {
             margin: theme.spacing(0),
             borderRadius: '50px !important',
-
         },
-
-
     },
 }));
 
 export default function HeaderStepper() {
-    const step = useSelector(state => state.TicketBookingReducer.stepper)
     const dispatch = useDispatch()
+    const step = useSelector(state => state.TicketBookingReducer.stepper)
+    let tenDN = useSelector(state => state.UserReducer.tenDangNhap)
     const dropdown = useDropDown();
     const btn = useButton();
     const list = useList();
-    const [open, setOpen] = useState(false);
-
     const stepper = useStepper();
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
     const steps = getSteps();
+    const [open, setOpen] = useState(false);
+    const [activeStep, setActiveStep] = useState(0);
+    const [skipped, setSkipped] = useState(new Set());
 
-    const isStepOptional = (step) => {
-        return step === 1;
-    };
+
+  
 
     const isStepSkipped = (step) => {
         return skipped.has(step);
     };
-
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
-
 
     const handleClick = () => {
         setOpen((prev) => !prev);
@@ -157,11 +113,9 @@ export default function HeaderStepper() {
     };
 
     useEffect(() => {
-    // Tiếp theo làm dispatch 
         setActiveStep(step)
     }, [step])
 
-    let tenDN = useSelector(state => state.UserReducer.tenDangNhap)
 
     let dropDown = () => {
         return (
@@ -188,22 +142,20 @@ export default function HeaderStepper() {
                 <NavLink to="/">
                     <img src={logo} alt="logo" />
                 </NavLink>
-                <div className={stepper.root}>
-                    <Stepper activeStep={activeStep}>
-                        {steps.map((label, index) => {
-                            const stepProps = {};
-                            const labelProps = {};
-                            if (isStepSkipped(index)) {
-                                stepProps.completed = false;
-                            }
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                </div>
+                <Stepper className={stepper.root} activeStep={activeStep}>
+                    {steps.map((label, index) => {
+                        const stepProps = {};
+                        const labelProps = {};
+                        if (isStepSkipped(index)) {
+                            stepProps.completed = false;
+                        }
+                        return (
+                            <Step key={label}  {...stepProps}>
+                                <StepLabel  {...labelProps}>{label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
                 {/* Đăng nhập  */}
                 <div className="heading__item__right">
                     <ClickAwayListener

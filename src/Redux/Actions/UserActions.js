@@ -1,5 +1,8 @@
 import axios from 'axios'
+import { constant } from 'lodash';
 import { history } from '../../App';
+
+
 
 export const dangKy = (user) => {
     return async (dispatch) => {
@@ -63,9 +66,9 @@ export const datVe = (info, token) => {
                 data: info,
                 headers: { 'Authorization': 'Bearer ' + token }
             })
-            dispatch({
-                type: 'RESET_MANG_GHE',
-            })
+            // dispatch({
+            //     type: 'RESET_MANG_GHE',
+            // })
         } catch (error) {
             console.log(error);
         }
@@ -90,6 +93,36 @@ export const layThongTinTaiKhoan = (taiKhoan) => {
         }
 
     }
+}
+
+export const doiMatKhau = (taiKhoan, matKhau, matKhauMoi) => {
+    const token = localStorage.getItem('t')
+    const layThongTinUser = async () => {
+        const user = await axios({
+            url: `https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/LayDanhSachNguoiDung?MaNhom=GP03&tuKhoa=${taiKhoan}`,
+            method: 'GET'
+        })
+        const doiMatKhau = async () => {
+            try {
+                const result = await axios({
+                    url: `https://movie0706.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`,
+                    method: 'PUT',
+                    headers: { 'Authorization': 'Bearer ' + token },
+                    data: { ...user.data[0], matKhau: matKhauMoi, maNhom: 'GP03' }
+                })
+                alert('Đổi mật khẩu thành công');
+            } catch (error) {
+                console.log(error.response?.data);
+            }
+            
+        } 
+        if (user.data[0].matKhau === matKhau) {
+            doiMatKhau()
+        }else{
+            alert('Sai mật khẩu!!!')
+        }
+    }
+    layThongTinUser()
 }
 
 export const doiGiaoDien = (component) => {

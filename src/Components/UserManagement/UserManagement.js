@@ -70,9 +70,9 @@ const useTable = makeStyles({
     root: {
         width: '100%',
         '& .MuiTableCell-stickyHeader': {
-            background: 'pink'
+            background: '#f55960',
+            color: 'white'
         }
-
     },
     container: {
         maxHeight: 440,
@@ -313,7 +313,7 @@ export default function UserManagement() {
     })
     return (
         <div>
-            <Paper className={table.root}>
+            <div className={table.root}>
                 <TableContainer className={table.container}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead className={table.header}>
@@ -355,7 +355,7 @@ export default function UserManagement() {
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                 />
-            </Paper>
+            </div>
         </div>
     )
 }

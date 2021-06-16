@@ -45,9 +45,7 @@ const useList = makeStyles((theme) => ({
     },
 }));
 
-function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-}
+
 export default function AddFilm() {
     const dispatch = useDispatch()
     const form = useForm();

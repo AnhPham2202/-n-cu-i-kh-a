@@ -27,10 +27,10 @@ export default function UserPage(props) {
 
         <div className={grid.root}>
             <Grid container spacing={0}>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                     <UserBar />
                 </Grid>
-                <Grid item xs={9}>
+                <Grid item xs={10}>
                     <Paper className={grid.paper}>
                         {component}
                     </Paper>

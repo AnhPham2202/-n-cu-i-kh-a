@@ -21,6 +21,17 @@ const useList = makeStyles((theme) => ({
         width: '100%',
         maxWidth: 360,
         backgroundColor: theme.palette.background.paper,
+        '& .MuiTypography-body1': {
+            fontSize: '14px',
+            textAlign: 'left'
+        },
+        '& .MuiListItem-root.Mui-selected': {
+            background: '#f55960',
+            color: 'white'
+        },
+        '& .MuiListItem-root.Mui-selected  .MuiListItemIcon-root':{ // không gộp chung với class ở treen vì làm cho chuyển màu selected không smooth
+            color: 'white'
+        }
     }, 
 }));
 

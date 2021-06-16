@@ -39,6 +39,13 @@ const useButton = makeStyles((theme) => ({
 
             fontSize: '22px',
         },
+        '& .MuiButton-label': {
+            zIndex: 1,
+            color: 'white '
+        },
+        '& .MuiTouchRipple-root': { // cho vào ripple để lúc disabled nó k có màu
+            background: 'linear-gradient(223deg, #b4ec51 0,#429321 100%)'
+        },
         position: 'absolute',
         bottom: 0,
         left: 0,
@@ -50,7 +57,7 @@ const useText = makeStyles({
         width: '100%',
         maxWidth: 500,
         textAlign: 'center',
-        color: 'green',
+        color: '#44c020',
         padding: 20,
         borderBottom: '1px solid #e9e9e9'
     },
@@ -80,67 +87,68 @@ const useText = makeStyles({
 });
 
 export default function SeatBookingInfo(props) {
+    const thongTinChiTietPhongVe = useSelector(state => state.TicketBookingReducer.thongTinChiTietPhongVe)
+    const mangGheDangDat = useSelector(state => state.TicketBookingReducer.mangGheDangDat)
+    const stepper = useSelector(state => state.TicketBookingReducer.stepper)
+    const { malichchieu } = props.match.params
     const dispatch = useDispatch()
     const textField = useField();
     const text = useText()
     const btn = useButton();
-    const thongTinChiTietPhongVe = useSelector(state => state.TicketBookingReducer.thongTinChiTietPhongVe)
-    const mangGheDangDat = useSelector(state => state.TicketBookingReducer.mangGheDangDat)
-    const { malichchieu } = props.match.params
-    let user = JSON.parse(localStorage.getItem('user'))
-    let thongTinDatVe = {
+    const [value, setValue] = useState('zalo');
+    const [disabled, setDisabled] = useState(true);
+    const user = JSON.parse(localStorage.getItem('user'))
+    const thongTinDatVe = {
         maLichChieu: malichchieu,
         danhSachVe: [],
         taiKhoanNguoiDung: user.taiKhoan
     }
-    const [value, setValue] = useState('zalo');
-    const [disabled, setDisabled] = useState(true);
+
+    const mangRadioChoices = [
+        { value: 'zalo', label: "Thanh toán qua ZaloPay", src: zalo },
+        { value: 'cc', label: "Visa, MasterCard, JCB", src: cc },
+        { value: 'atm', label: "Thẻ ATM nội địa", src: atm },
+        { value: 'paypoo', label: "Thanh toán tại cửa hàng tiện ích", src: paypoo },
+    ]
+
 
     const handleChange = (event) => {
         setValue(event.target.value);
     };
 
-    if (mangGheDangDat.length !== 0 && disabled) { setDisabled(false) }
-    if (mangGheDangDat.length == 0 && !disabled) { setDisabled(true) }
+
+    if (stepper === 0) {
+        if (mangGheDangDat.length !== 0 && disabled) { setDisabled(false) }
+        if (mangGheDangDat.length == 0 && !disabled) { setDisabled(true) }
+    } else {
+        if (!disabled) { setDisabled(true) }
+    }
     useEffect(() => {
         dispatch(layChiTietPhongVe(malichchieu))
         dispatch({
             type: 'RESET_MANG_GHE'
         })
     }, [])
-    let radioHinhThucThanhToan = () => {
+
+    const radioHinhThucThanhToan = () => {
+        const renderFormControlLabel = () => {
+            return mangRadioChoices.map((choice, index) => {
+                return (
+                    <FormControlLabel key={index} disabled={disabled} value={choice.value} control={<Radio />} label={
+                        <Box component="span" m={1}>
+                            <img className="mr-2" width={40} src={choice.src} />
+                            <Typography variant="caption" component="span">{choice.label}</Typography>
+                        </Box>
+
+                    } />
+                )
+            })
+        }
         return (
             <FormControl component="fieldset">
                 <FormLabel component="legend">Hình thức thanh toán</FormLabel>
                 <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
-                    <FormControlLabel value="zalo" control={<Radio />} label={
-                        <Box component="span" m={1}>
-                            <img className="mr-2" width={40} src={zalo} />
-                            <Typography variant="caption" component="span">Thanh toán qua ZaloPay </Typography>
-                        </Box>
-
-                    } />
-                    <FormControlLabel value="cc" control={<Radio />} label={
-                        <Box component="span" m={1}>
-                            <img className="mr-2" width={40} src={cc} />
-                            <Typography variant="caption" component="span">Visa, MasterCard, JCB </Typography>
-                        </Box>
-
-                    } />
-                    <FormControlLabel value="atm" control={<Radio />} label={
-                        <Box component="span" m={1}>
-                            <img className="mr-2" width={40} src={atm} />
-                            <Typography variant="caption" component="span">Thẻ ATM nội địa </Typography>
-                        </Box>
-
-                    } />
-                    <FormControlLabel value="paypoo" control={<Radio />} label={
-                        <Box component="span" m={1}>
-                            <img className="mr-2" width={40} src={paypoo} />
-                            <Typography variant="caption" component="span">Thanh toán tại cửa hàng tiện ích </Typography>
-                        </Box>
-                    } />
-
+                    {renderFormControlLabel()}
                 </RadioGroup>
             </FormControl>
         )
@@ -176,7 +184,7 @@ export default function SeatBookingInfo(props) {
             }
         })
     }
-    let renderTongTienTheoLoaiGhe = (loaiGhe) => {
+    const renderTongTienTheoLoaiGhe = (loaiGhe) => {
         let sum = 0
         mangGheDangDat.map((ghe, index) => {
             if (ghe.loaiGhe === loaiGhe) {
@@ -185,8 +193,7 @@ export default function SeatBookingInfo(props) {
         })
         return sum;
     }
-    console.log(renderTongTienTheoLoaiGhe('Thuong'));
-    let renderGheDangDatVIP = () => {
+    const renderGheDangDatVIP = () => {
         return mangGheDangDat.map((gheDangChon) => {
             if (gheDangChon.loaiGhe === 'Vip') {
                 return (
@@ -195,7 +202,7 @@ export default function SeatBookingInfo(props) {
             }
         })
     }
-    let renderTongTien = () => {
+    const renderTongTien = () => {
         let tongTien = 0
         mangGheDangDat.map((gheDangChon) => {
             tongTien += gheDangChon.giaVe
@@ -214,6 +221,7 @@ export default function SeatBookingInfo(props) {
                 {renderTongTien()}
             </div>
             {renderThongTinPhimVaRap()}
+
             <div className={text.lineFormatWithColor}>
                 <Typography variant="caption" display="block" gutterBottom>
                     Ghế thường: {renderGheDangDat()}
@@ -232,18 +240,18 @@ export default function SeatBookingInfo(props) {
                     {renderTongTienTheoLoaiGhe('Vip')} đ
                 </Typography>
             </div>
-            <div className={textField.root}>
-                <TextField id="standard-basic" label="E-mail" />
-                <TextField id="standard-basic" label="Số điện thoại" />
-            </div>
+
+            {/* <div className={textField.root}>
+                <TextField disabled={disabled} id="standard-basic" label="E-mail" />
+                <TextField disabled={disabled} id="standard-basic" label="Số điện thoại" />
+            </div> */}
+
             <div className={text.lineFormat} >
                 {/* <Typography variant="body2" display="block" gutterBottom>
                 </Typography> */}
                 {radioHinhThucThanhToan()}
 
             </div>
-
-
 
             <div className={btn.root}>
                 <div className={text.warningText}>
@@ -255,8 +263,8 @@ export default function SeatBookingInfo(props) {
                 </div>
 
 
-                <Button variant="contained" color="primary" disabled={disabled} onClick={() => {
-                    dispatch(thayDoiHeaderProgress())
+                <Button variant="contained" disabled={disabled} onClick={() => {
+                    dispatch(thayDoiHeaderProgress(1))
                     dispatch(datVe(thongTinDatVe, user.accessToken))
                 }}>Mua Vé</Button>
             </div>

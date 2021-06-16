@@ -32,6 +32,13 @@ const useList = makeStyles((theme) => ({
         '& .MuiTypography-body1': {
             fontSize: '14px',
             textAlign: 'left'
+        },
+        '& .MuiListItem-root.Mui-selected': {
+            background: '#f55960',
+            color: 'white'
+        },
+        '& .MuiListItem-root.Mui-selected  .MuiListItemIcon-root':{ // không gộp chung với class ở treen vì làm cho chuyển màu selected không smooth
+            color: 'white'
         }
     },
 }));
@@ -60,9 +67,7 @@ const useAvatar = makeStyles((theme) => ({
     },
 }));
 
-function ListItemLink(props) {
-    return <ListItem button component="a" {...props} />;
-}
+
 
 export default function AdminBar() {
     const dispatch = useDispatch()

@@ -6,9 +6,9 @@ import screen from '../../assets/img/screen.png'
 
 
 export default function SeatMap(props) {
+    const dispatch = useDispatch()
     const thongTinChiTietPhongVe = useSelector(state => state.TicketBookingReducer.thongTinChiTietPhongVe)
     const mangGheDangDat = useSelector(state => state.TicketBookingReducer.mangGheDangDat)
-    const dispatch = useDispatch()
     const { malichchieu } = props.match.params
 
     useEffect(() => {
